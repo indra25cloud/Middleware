@@ -1,0 +1,74 @@
+﻿Command to deploy application by using Weblogic deployer utility
+--------------------------------------------------------------------
+
+D:\Oracle\Middleware\wlserver_10.3\server\bin>java weblogic.Deployer -adminurl t3://localhost:7001 -username weblogic -password weblogic123 -name hrapp.war -source D:\hrapp.war -targets MServer-1 -deploy
+
+Command to undeploy application by using Weblogic deployer utility
+--------------------------------------------------------------------
+
+D:\Oracle_Silent\Middleware_Home\wlserver_10.3\server\bin>java weblogic.Deployer -adminurl t3://localhost:7001 -username weblogic -password weblogic123 -name hrapp.war -targets MServer-1 -undeploy
+
+
+
+
+Deployment by using scripting
+----------------------------------
+## Connect to the server
+print ‘Connecting to server …. ‘
+connect(‘weblogic’,'weblogic123′,’t3://localhost:7001′)
+appname = “HRAPP”
+applocation = “D:\hrapp.war”
+# Start deploy
+print ‘Deploying application ‘ + appname
+deploy(appname, applocation, targets=’MServer-1′,
+#planPath=’c:/myapps/plan/plan.xml’)
+print ‘Done Deploying the application ‘+ appname
+exit()
+
+
+
+java weblogic.WLST deployRecursively.py
+
+
+Deploy application on admin server:
+
+java weblogic.Deployer -adminurl url -username username -password
+password -name myapp -deploy app.ear
+
+
+• Deploy individual modules in application to different targets:
+
+java weblogic.Deployer -adminurl url -username username -password
+password -name myapp -targets server1 –deploy app.ear
+
+
+
+• Undeploy application from specified targets:
+
+java weblogic.Deployer -adminurl url -username username -password
+password -name myapp -undeploy -targets server1,server2
+
+
+
+
+
+• Redeploy application on current targets:
+java weblogic.Deployer -adminurl url -username username -password
+password -name myapp -redeploy
+
+
+
+
+
+
+
+
+
+
+
+
+• Redeploy individual module in an application:
+java weblogic.Deployer -adminurl url -username username -password
+password -name myapp -redeploy -targets moduleA@serverA,moduleA@
+serverB
+To use Java, you should

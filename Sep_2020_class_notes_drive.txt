@@ -1,0 +1,509 @@
+Tasks to complete
+-----------------
+1. Install JAVA and configure JAVA PATH
+2. Install JBOSS
+3. Start Server in standalone mode
+4. Create multiple servers in standalone mode
+5. Deploy applications in multiple servers and access from different servers
+6. Create a server group and create servers
+7. Deploy applications in server groups and access from different servers
+8. Deploy application in standalone by using jboss-cli
+9. Deploy application in server-groups by using jboss-cli
+10. Configure DS in standalone by using GUI
+11. Configure DS in standalone by using JBOSS-CLI
+12. Configure DS in standalone by using xml file
+13. Configure DS in Domain mode by using GUI
+14. Configure DS in Domain mode by using XML file
+15. Install apache
+16. Configure apache and jboss by using mod_jk
+17. Create a hosrizontal cluster with mod_jk, observer load balancing
+18. Confgure master slave - domain mode
+19. Observer application load balancing with master-slave
+20. Configure mod_cluster
+21. Create log error messages and understand log messages
+
+
+Create a restore point
+Configure java class path in windows
+
+
+This PC--> properties--> Advanced System Settings--> Environment Variables --> 
+
+under user variable
+new-
+JAVA_HOME	C:\Program Files\Java\jdk1.8.0_144
+
+
+under system variables
+
+Wildfly latest version 20.0.1.Final   JUL 2020
+
+EAP 7.3.0 		MAR 2020
+
+
+
+path 	C:\Program Files\Java\jdk1.8.0_144\bin
+
+
+
+Agenda 10-Sep-2020
+------------------
+On Windows
+---------
+1. Diff between standalone mode and domain mode
+2. Create multiple instances in domain mode
+3. Understading about profiles and subsystems
+4. Starting servers with different profiles
+5. Login AWS and create an instance
+
+On Linux
+1. Practice imp linux commands
+2. Create multiple instances in domain mode
+
+/opt/EAP_7.1/bin>./domain.sh -Djboss.bind.address.management=192.168.48.181 -b 192.168.48.181
+
+
+https://www.puttygen.com/download-putty
+
+
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#using-instance-addressing-eips-allocating
+
+15.207.156.107
+
+server1 - 13.232.120.250
+
+Server2 13.235.49.67
+
+yum install vim
+yum install unzip
+
+sudo passwd root
+
+vim stanadlone.conf
+
+-Xms100m -Xmx400m
+
+1. Connect to EC2 instance through putty
+set root password
+	sudo passwd root
+2. Connect to EC2 instance through putty
+	copy below files
+	jboss-eap-7.1.0.zip
+	jdk-8u144-linux-x64.rpm
+3. su root
+	yum install vim
+	yum install unzip
+4. Install java
+@root> rpm -ivh dk-8u144-linux-x64.rpm
+5. unzip jboss-eap-7.1.0.zip
+   cd /home/ec2-user/jboss-eap-7.1/bin
+   vim stanadlone.conf
+press i to go to insert mode and change the heap values
+	-Xms100m -Xmx400m
+press esc, :wq  
+6. Add Ip in /etc/hosts file
+find the ipaddress
+	ifconfig 
+(it will display its ip, its different with the public ip)
+	
+Add this ip (displayed in ifconfig output in /etc/hosts file)
+vim /etc/hosts
+save and quit
+
+Restart Ec2 Instance
+	
+6. Start JBOSS 
+./standalone.sh -Djboss.bind.address.management=172.31.36.232 -b 172.31.36.232
+
+
+Agenda 14-Sep-2020
+------------------
+1. Configure JBOSS with Oracle by using JBOSS-CLI
+2. Configure JBOSS with Oracle by using XML files
+3. Configure JBOSS with Oracle in Domain mode
+4. Configure JBOSS with Oracle in Linux
+5. Application Deployment
+
+
+
+
+
+Steps to configure JBOSS with Oracle by using jboss-cli
+------------------------------------------------------
+connect to jboss-cli by executing
+./jboss-cli.sh
+connect 
+then
+1. Load the jar file by using a command
+
+module add --name=com.oracle --resources="F:\Softwares\Oracle\ojdbc6.jar" --dependencies=javax.api,javax.transaction.api
+
+2. Update the driver
+/subsystem=datasources/jdbc-driver=oracle:add(driver-name=oracle,driver-module-name=com.oracle)
+
+3. Create a datasource
+data-source add --jndi-name=java:/Oracle_DS_PAYTM --name=Oracle_DS_PAYTM  --connection-url=jdbc:oracle:thin:@localhost:1521:xe --driver-name=oracle --user-name=system --password=admin
+
+4. Test the connection
+/subsystem=datasources/data-source=Oracle_DS_PAYTM:test-connection-in-pool
+
+
+Troubleshooting DB Connectivity issues
+--------------------------------------
+1. Check the error message in the log file, if the error message have any netExceptions, network adapter exceptions, listerner refused 
+  =>Now check the connectivity between jboss host and db host and also is the DB Server is running or not and port is opened or not
+  => first I will execute ping remote ip to check the connectivity between two boxes, then execute telnet <remote host name /ip> port number of db server
+ => if it's not connected I will tell DB team to check the status of DB Server and to open the port.
+2. If we get java.sql.SQLException: invalid username/password; logon denied
+  => Now check the user name and password given in the configuration
+3. If we get an missing/unavailable dependencies jboss.driver-demander or class not found exceptions, check do we have proper jar files and proper driver classes in the jar file. 
+4. Verify the connection url and database name
+5. This is the way, how I troubleshoot DB connectivity issues
+
+
+We can configure DB in 3 ways
+
+	1. GUI mode / management console
+	2. JBOSS-CLI
+	3. xml files
+
+
+
+ cp -R oracle/ /opt/EAP_7.1_SEP/modules/system/layers/base/com
+
+
+
+
+
+domain.bat -Djboss.management.http.port=15000
+
+timezone error - issue withn final jar file
+
+standalone mode -linux - ojdbc6.jar is working
+Domain mode - linux - ojdbc6.jar is working
+
+jdbc:oracle:thin:@localhost:1521:xe
+
+Windows
+--------
+EAP 7.3 and ojdbc6.jar  - successfully - standalone mode 
+EAP 7.3 and ojdbc6.jar  - successfully - Domain mode 
+
+Linux
+-----
+
+Agenda 16-Sep-2020
+------------------
+1. Application Deployment in standalone mode and domain mode
+	1. GUI/management console
+	2. File based deployment
+	3. JBOSS-CLI
+2. Observe xml and log file deploying and while startup
+
+
+Application Deployment
+	1. GUI/management console
+	2. File based deployment (only in standalone mode)
+	3. JBOSS-CLI
+	4. maven
+	5. ant
+	6. eclipse
+	7. myeclipse
+	8. netbeans
+	9. urban code deploy
+
+
+
+server.log
+
+<EAP-HOME>/standalone/log
+		
+server.log
+Content added at location C:\EAP-7.3_Sep\standalone\data\content\ab\51e7b83bbff4da18b585b2a14d1f26dd2d4e48\content
+
+Create a script
+1. Create server groups
+2. Create servers (Reload)
+3. StartServers
+4. Deploy application
+5. Datasource configuration
+
+
+ /server-group=irctcservergroup:add(profile=ha,socket-binding-group=ha-sockets)
+/host=master/server-config=abhibusserver1:add(group=irctcservergroup)
+
+jboss-cli.sh --connect --commands=ls\ deployment
+
+
+/host=master/server-config=server-two/:write-attribute(name=socket-binding-port-offset,value=250)
+
+/host=master/server-config=abhibusserver2:write-attribute(name=socket-binding-port-offset,value=600):add(group=abhibusgroup)
+
+Agenda 19-Sep-2020
+------------------
+1. Logs and Troubleshooting
+2. Process
+
+Agenda 18-Sep-2020
+---------------------
+1. Creating a cli script
+2. Configure Oracle in linux with jboss cli
+3. configure through xml files
+4. Integrate Apache and jboss by using mod_jk
+5. Configure vertical cluster
+6. Configure Horizontal cluster in standalone and domain mode
+5. Integrate Apache and jboss by using mod_cluster
+ Integrate Apache and jboss 
+----------------------------
+	1. mod_jk
+	2. mod_cluster
+	3. mod_proxy
+
+
+Integrate Apache and jboss by using mod_jk
+------------------------------------------
+	1. Apache Web Server
+	2. plugin module - mod_jk.so
+	3. JBOSS AppServer
+In Apache Layer
+--------------
+	mod_jk.so
+	mod-jk.conf
+	workers.properties
+	uri-workermap.properties
+In AppServer
+-----------
+	Start JBOSS with ha profile or make sure ajp connector port is listening
+
+
+
+Steps to install Apache WebServer
+---------------------------------
+1. Download and extract apache zip bundle
+2. Execute ./configure --prefix=/opt/Apache_2.2.22
+	   make
+  	   make install
+
+Loading mod_jk module to apache
+--------------------------------
+1. Download Tomcat connector tomcat-connectors-1.2.42-src.tar.gz
+2. Extract it tar -zxvf tomcat-connectors-1.2.42-src.tar.gz
+3. Execute yum install -y httpd-devel gcc gcc-c++ make libtool
+4. Go to /home/softwares/tomcat-connectors-1.2.42-src/native
+5. Execute sudo ./configure --with-apxs="/opt/apache_2.2.22/bin/apxs"
+6. sudo make
+7. sudo make install
+
+Steps to configure JBOSS with Apache by using mod_jk 
+---------------------------------------------------
+1. Install Apache WebServer
+2. We can install by executing a command
+	./configure --prefix=/opt/Apache_2.4.25
+	make
+	make install
+3. Make sure, we have mod_jk module in <apache-home>/modules directory (If it's not available download and place in modules dir)
+4. Load mod_jk module by adding a parameter
+LoadModule jk_module modules/mod_jk.so in httpd.conf file
+5. Create 3 new files 
+		mod-jk.conf
+		uriworkermap.properties
+		workers.properties 
+	in <apache-home>/conf directory	
+6. Include mod-jk.conf in httpd.conf file by adding a parameter 
+Include conf/mod-jk.conf 
+7. In mod-jk.conf file define the location of workers.properties, jk log file location, log level, log format, jkmount application context, Allow from IP Address, jkmount file - the location of uriworkermap.properties
+8. In uriworkermap.properties map the context root of an application which we have to access
+9. In workers.properties file, specify
+		worker node port, ajp connector port number of the appserver instance, host name, protocol, lbfactor, load balancer workers, sticky session to true or false e.tc.
+10. Start WebServer and access applications through WebServer
+11. If a request is going through Webserver we can find the request info. in access log  file of apache in Apache/logs directory.
+
+In Box1
+username steve
+<secret value="YWRtaW4xMjMk" />
+
+
+Agenda 19-Sep-2020
+------------------
+1. Logs and Troubleshooting (use windows to understand, then switch to linux)
+2. Integrate Apache and jboss by using mod_cluster
+2. Process
+
+
+
+
+Steps to configure master-slave configuration with two boxes
+------------------------------------------------------------
+1. Take two Machines 
+	Machine-A		Machine-B
+	192.168.48.173		192.168.48.167
+2. Add ipaddress/hostname in both /etc/hosts file if required
+3. Execute service network restart
+4. Install JBOSS in both the machines
+5. Take a backup of domain configuration files
+6. Create a Servergroup (Amazon_Server_group) and OneServer (Amazon_Server1_Master) in Machine-A
+7. Create a Servergroup (Redbus_Server_group) and OneServer (Redbus_Server1_Slave) in Machine-B
+8. Create an user account in master and copy secret value which is required in slave machine
+	<secret value="dGVzdDEyMyQ=" />
+9. Add the generated secret value in slave host-slave.xml and provide master ip in slave box
+10. In the domain controller section add the username
+ <domain-controller>
+ 
+       <remote security-realm="ManagementRealm" 							username="jbosstest">
+ 
+on slave
+--------
+./domain.sh --host-config=host-lave.xml 
+-Djboss.domain.master.address=192.168.48.173 -b 192.168.48.167
+on master
+---------
+./domain.sh -Djboss.bind.address.management=192.168.48.173
+
+
+
+
+
+Steps to configure Jboss With Apache by using mod_cluster
+---------------------------------------------------------
+1. Download mod_cluster or mod_cluster modules
+	mod_proxy_cluster.so
+	mod_manager.so
+	mod_cluster_slotmem.so
+	mod_advertise.so
+2. Copy modules to apache modules directory
+3. Add load modules in httpd.conf file of apache
+LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
+LoadModule manager_module modules/mod_manager.so
+LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so
+LoadModule advertise_module modules/mod_advertise.so
+4. Check multicast is working between apache and jboss instance	
+5. Do changes in httd.conf file virtual host sections, what are the IP's that apache can allow and check the multicast number
+6. Restart webserver and start jboss instances
+7. Now jboss will connect with apache by using advertise mechanism 
+8. webserver receives the requests and forward it to jboss instances
+
+http://192.168.48.173:6666/mod_cluster_manager
+
+
+standalone.bat -c standalone-ha.xml -u 230.0.0.4 -Djboss.server.base.dir="C:\EAP-6.4.0\standalone-node02" -Djboss.node.name=standalone-node02 -Djboss.socket.binding.port-offset=200
+
+domain.sh -b 192.168.48.161 -Djboss.bind.address.management=192.168.48.161 -u 230.0.0.4
+
+
+Steps to configure Apache With JBOSS by using mod_cluster
+---------------------------------------------------------
+1. Download mod_cluster or mod_cluster modules
+	mod_proxy_cluster.so
+	mod_manager.so
+	mod_cluster_slotmem.so
+	mod_advertise.so
+2. Copy modules to apache modules directory
+3. Add load modules in httpd.conf file of apache
+LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
+LoadModule manager_module modules/mod_manager.so
+LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so
+LoadModule advertise_module modules/mod_advertise.so
+4. Check multicast is working between apache and jboss instance	
+5. Do changes in httpd.conf file virtual host sections, what are the IP's that apache can allow and check the multicast number
+6. Restart webserver and start jboss instances
+7. Now jboss will connect with apache by using advertise mechanism 
+8. webserver receives the requests and forward it to jboss instances
+
+			opt
+			  |
+			jboss
+			  |
+			httpd
+			  |
+	-------------------------------------------
+	|	|	|	|    |   |    |    |	
+	bin  htdocs  httpd  include lib man sbin tools  
+		       |	     |	     |	
+		    conf  logs	   httpd   apachectl
+		       |	     |
+		httpd.conf	  modules
+
+
+mod_cluster-1.3.1.Final-linux2-x64.tar.gz
+
+224.0.1.105 23364
+
+
+-explicitly-allowed-ports=6666
+
+
+
+network.security.ports.banned.override
+
+
+
+
+http://192.168.48.174:6666/mod_cluster_manager
+
+./standalone.sh -c standalone-ha.xml -u 224.0.1.105 -Djboss.node.name=standalone-node02 -Djboss.socket.binding.port-offset=200 -Djboss.bind.address.management=192.168.48.168 -b 192.168.48.168 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

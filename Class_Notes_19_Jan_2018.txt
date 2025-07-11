@@ -1,0 +1,988 @@
+To Practice
+-----------
+Install Java
+Install EAP 7.0 by using GUI Mode
+Start Server and access management console
+Install by using ZIP
+Start Server and access management console
+Install by using Console
+Start Server and access management console
+Install by using Silent
+Start Server and access management console
+Start Server with port-offset and access management console
+Deploy supermarket.war and TestServerKrishna.war and access
+=>Create multiple instances in standalone mode and start that instaces
+=>Deploy in multiple servers
+=>In domain mode create servers and deploy apss
+=>Create a server group and servers through xml files
+=>Create a new standalone server and start that server with ha profile
+  =>Deploy through management console
+  =>Deploy through  file system
+  =>Deploy through JBOSS-CLI
+  =>Write a script to deploy and undeploy applications
+  =>Write a script to configure DS and Deploy applications
+=>Configure Apache with JBOSS by using mod_jk with one instance
+=>Configure Apache with JBOSS by using mod_jk with three instances and access application
+
+
+
+Agenda - 04-Jan-2018
+--------------------
+1. Quick Revise
+2. Diff b/w EAP and Wildfly
+3. JBOSS download and Installation types
+4. Start JBOSS Server and Access Console
+
+
+
+Check pre-rep
+
+Disk space
+Ram
+32 bit / 64 bit
+Install Java
+
+Download JAVA
+-------------
+http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase7-521261.html
+
+JAVA_HOME	C:\Program Files\Java\jdk1.8.0_144
+path		C:\Program Files\Java\jdk1.8.0_144\bin
+
+
+Download EAP
+-------------
+https://developers.redhat.com/products/eap/download/
+
+At the time of Installing JBOSS a log file InstallationLog.txt will be updated
+
+C:\EAP-7.0.0\installation\InstallationLog.txt
+
+
+C:\EAP-7.0.0 - <EAP-HOME>
+
+
+Start JBOSS Server
+by executing a command standalone.bat located under
+
+<EAP-HOME>/bin
+	   standalone.bat
+
+05-Jan-2018
+-----------
+port-offset
+installation zip
+installation console
+installation auto/silent
+
+
+
+
+
+
+Start a server by using port-offset 
+
+C:\EAP-7.0.0\bin>
+	./standalone.sh -Djboss.socket.binding.port-offset=100
+
+
+in Win standalone.bat -Djboss.socket.binding.port-offset=100
+
+
+To Uninstall
+Execute uninstaller.jar located in 
+C:\EAP-7.0.0\uninstaller
+
+
+make sure servers are stopped and exit from command promt
+
+
+Zip extraction
+
+extracted
+
+At the time of user creation mgmt-users.properties and mgmt-groups.properties will be updated in standalone/configuration and domain/configuration
+
+
+java -jar jboss-installer.jar <path of auto.xml>
+
+
+Uninstall JBOSS by using console mode
+-------------------------------------
+C:\EAP_7.0_Silent\uninstaller>java -jar uninstaller.jar -console
+
+
+http://localhost:8080/supermarket
+
+
+Agenda 06-Jan-2018
+------------------
+1. quick Revision
+2. Creating a multiple standalone servers with in JBOSS
+3. Starting multiple servers in the same system
+4. Domain mode
+5. Differences between Standalone and Domain mode
+
+
+Agenda -08-Jan-2018
+-------------------
+1. Major Components of xml files
+2. Extensions
+3. subsystems
+4. JEE profiles
+5. JBOSS profiles
+
+
+
+structure of an xml
+--------------------
+<server>
+	<extensions>
+
+
+	</extensions>
+
+	<management>
+
+
+	</management>
+
+	<profile>
+		<subsystem>	
+
+		</subsystem>
+
+		<subsystem>	
+
+		</subsystem>
+	</profile>
+	
+	<interfaces>
+	
+	
+	</interfaces>
+
+
+	<socket-binding-group>
+
+
+	</socket-binding-group>
+	
+	<deployments>
+
+	</deployments>
+
+</server>
+
+<extension module="module name"/>
+
+ <extension module="org.jboss.as.deployment-scanner"/>
+
+
+1. default
+2. full
+3. ha
+4. full-ha
+
+
+interfaces
+-----------
+ <interface name="management"/>
+
+ <interface name="public"/>
+ 
+ <interface name="private">
+
+
+standalone.bat  -b 192.168.253.1
+
+
+standalone.bat -b 192.168.253.2
+
+
+standalone.bat -b 192.168.253.3
+
+
+
+Agenda -09-Jan-2018
+-------------------
+1. JEE profiles
+2. JBOSS profiles
+3. Starting Server in standalone mode with different profiles
+4. Overview of config files in standalone mode and domain mode
+4. Creating Servers and starting servers with different profiles in domain mode
+
+
+			j2ee/jee
+			  |
+-----------------------------------------------------
+|						     |
+Web Profile					Full Profile
+
+
+
+
+standalone.bat -c standalone-ha.xml -Djboss.server.base.dir="C:\EAP-6.4.0\standalone-node2" -Djboss.socket.binding.port-offset=200
+Agenda 11-Jan-2018
+-------------------
+1. Install Oracle
+2. Deploy DB jar file
+3. Configure Oracle by using Management console in standalone mode
+4. Configure Oracle by using Management console in domain mode
+
+
+http://localhost:8080/apex
+
+
+jboss-cli
+
+JNDI name
+
+
+
+
+ojdbc6.jar
+
+C:\oraclexe\app\oracle\product\10.2.0\server\jdbc\lib
+
+	   Amazon_OracleDS
+
+JNDI Name java:/Amazon_OracleDS
+
+
+jdbc:oracle:thin:@localhost:1521:xe
+
+protocol:subprotocol:type of driver:@db server host name:db server port number:db name
+
+full sockets / -Djboss.http.port=2000
+
+Agenda 12-Jan-2018
+------------------
+1. Configuring DB in domain mode by using management console
+2. Configuring DB in domain mode by using jboss-cli
+3. Configuring DB in domain mode by using xml files
+
+
+Download module.xml
+copy ojdbc6.jar and module.xml
+
+to modules directory
+
+C:\EAP-7.0.0\modules\system\layers\base\com\oracle\main
+
+
+
+
+
+
+
+Steps to configure Database with JBOSS by using xml file
+-------------------------------------------------------
+1. Copy the jar files and module.xml to <EAP-home>\modules\system\layers\base\com\oracle\main
+2. Take a backup of domain.xml 
+3. Select the profile and "datasource" subsystem
+3. Under datasources subsyetm. specify jndiname of datasource, pool name, connection url like jdbc:oracle:thin:@192.168.92.1:1521:xe
+4. Provide driver class name, driver name, username and password
+5. Save the changes and restart the server
+
+
+
+data-source add --jndi-name=java:/DS_HDFC --name=DS_HDFC --connection-url=jdbc:oracle:thin:@localhost:1521:xe --driver-name=oracle --user-name=system --password=admin
+
+
+/subsystem=datasources/data-source=DS_HDFC:test-connection-in-pool
+
+[standalone@localhost:10090 /] /subsystem=datasources/data-source=OracleDS_Redbus:test-connection-in-pool
+
+
+C:\EAP-7.0.0\bin>
+
+		jboss-cli.bat --file="F:\Softwares\Jboss\Regular_Jan_2018\Oracle_config.cli"
+
+Application Deployment
+----------------------
+Types of Deployment
+1.Admin Console / Management Console
+2.Files system / Hot Deployment (only in standalone)
+3.Command Line / JBOSS CLI
+3.Maven, ANT - Build tools
+5.Eclipse - IDE (By Developers)
+
+
+If we deploy by using management console, a file will be created in <EAP-HOME>/standalone/data/content/ directory
+
+
+Deploying in Domain Mode by using JBOSS CLI
+-------------------------------------------
+Deploy in all server groups
+--------------------------
+deploy F:\supermarket.war --all-server-groups
+
+Undeploy from all server groups
+-------------------------------
+undeploy supermarket.war --all-relevant-server-groups
+
+Deploy in a paritcular server group
+------------------------------------
+deploy F:\supermarket.war --server-groups=main-server-group
+
+Undeploy from a particular server group
+--------------------------------------
+undeploy supermarket.war --server-groups=main-server-group --keep-content
+
+Undeploy completely
+-------------------
+undeploy supermarket.war
+
+Deploy same application to other server group
+-----------------------------------------------
+deploy --name=supermarket.war --server-groups=other-server-group
+
+
+
+
+Steps to configure JBOSS in standalone mode with mod_jk 
+-------------------------------------------------------
+1. Install AppServer
+2. Install Apache Webserver
+	./configure --prefix=/opt/Apache_2.4.25
+	make
+	make install
+3. Make sure, we have mod_jk module in <apache-home>/modules directory (If it's not available download and place in modules dir)
+4. Load mod_jk module by adding a parameter
+LoadModule jk_module modules/mod_jk.so in httpd.conf file
+5. Create 3 new files 
+		mod-jk.conf
+		uriworkermap.properties
+		workers.properties 
+	in <apache-home>/conf directory	
+6. Include mod-jk.conf in httpd.conf file by adding a parameter 
+Include conf/mod-jk.conf 
+7. In mod-jk.conf file define the location of workers.properties, jk log file location, log level, log format, jkmount application context, Allow from IP Address, jkmount file - the location of uriworkermap.properties
+8. In uriworkermap.properties map the context root of an application which we have to access
+9. In workers.properties file, specify
+		worker node port, ajp connector port number of the appserver instance, host name, protocol, lbfactor, load balancer workers, sticky session to true or false e.tc.
+
+Application Server Side
+-----------------------
+	1. Take a backup of standalone.xml file
+	2. Add a parameter
+	<connector name="ajp" protocol="AJP/1.3" socket-binding="ajp" enabled="true" scheme="ajp" />
+above to <virtual-server name tag
+	3. Check the ajp connector port number in standalone.xml (the default port number is 8009)
+
+10. Restart Webserver and AppServer
+11. Now We can access the applications through webserver
+
+
+
+Agenda 22-Jan-2018
+------------------
+1. About VM
+2. Installing OS in VM
+3. Basic Commands in Linux
+4. Installing Java
+5. Installing JBOSS
+
+
+Agenda 24-Jan-2018
+------------------
+Application Deployment in standalone and in Domain mode
+DB configuration in standalone and domain mode
+Apache Webserver Installation
+Configuring Apache with JBOSS
+Creating a cluster in JBOSS
+
+
+
+Configuring Apache with JBOSS in Linux with mod_jk
+---------------------------------------
+1. Download Tomcat connector tomcat-connectors-1.2.42-src.tar.gz
+2. Extract it tar -zxvf tomcat-connectors-1.2.42-src.tar.gz
+3. Execute yum install -y httpd-devel gcc gcc-c++ make libtool
+4. Go to /home/softwares/tomcat-connectors-1.2.42-src/native
+5. Execute sudo ./configure --with-apxs="/opt/apache_2.2.22/bin/apxs"
+6. sudo make
+7. sudo make install
+
+
+
+worker.list=failover
+
+# Define Node1
+# modify the host as your host IP or DNS name.
+worker.node1.port=8009
+worker.node1.host=localhost
+worker.node1.type=ajp13
+worker.node1.ping_mode=A
+worker.node1.lbfactor=1
+
+ 
+# Define Node2
+# modify the host as your host IP or DNS name.
+worker.node2.port=8109
+worker.node2.host=localhost
+worker.node2.type=ajp13
+worker.node2.ping_mode=A
+worker.node2.lbfactor=1
+ 
+ 
+# Load-balancing behaviour
+worker.loadbalancer.type=lb
+# If we want to stop the request to any instance remove that node name from the below parameter
+worker.loadbalancer.balance_workers=node1,node2
+worker.loadbalancer.sticky_session=False
+worker.list=loadbalancer
+
+
+
+Steps to configure Jboss With Apache by using mod_cluster
+---------------------------------------------------------
+1. Download mod_cluster or mod_cluster modules
+	mod_proxy_cluster.so
+	mod_manager.so
+	mod_cluster_slotmem.so
+	mod_advertise.so
+2. Copy modules to apache modules directory
+3. Add load modules in httpd.conf file of apache
+LoadModule proxy_cluster_module modules/mod_proxy_cluster.so
+LoadModule manager_module modules/mod_manager.so
+LoadModule cluster_slotmem_module modules/mod_cluster_slotmem.so
+LoadModule advertise_module modules/mod_advertise.so
+4. Check multicast is working between apache and jboss instance	
+5. Do changes in httd.conf file virtual host sections, what are the IP's that apache can allow and check the multicast number
+6. Restart webserver and start jboss instances
+7. Now jboss will connect with apache by using advertise mechanism 
+8. webserver receives the requests and forward it to jboss instances
+
+
+
+
+standalone.bat -c standalone-ha.xml -u 230.0.0.4 -Djboss.server.base.dir="C:\EAP-6.4.0\standalone-node02" -Djboss.node.name=standalone-node02 -Djboss.socket.binding.port-offset=200
+
+
+domain.sh -b 192.168.48.161 -Djboss.bind.address.management=192.168.48.161 -u 230.0.0.4
+
+
+Troubleshooting
+---------------
+Infra/Environmnet 
+Process
+SLA
+
+
+
+
+
+web.xml
+-------
+<web-app>
+	<servlet>
+		<servlet-name>login</servlet-name>
+		<servlet-class>com.axa.LoginApp</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>login</servlet-name>
+		<url-pattern>logintoaxa</url-pattern>
+	</servlet-mapping>
+</web-app>
+
+
+
+
+Agenda-31-Jan-2018
+------------------
+Different logs
+Log Format
+Enabling Debug mode
+Troubleshooting port conflicts
+Troubleshooting 404 error
+Trobleshooting 500 internal server error
+
+
+Types of Logs
+------------
+In Apache Webserver
+	1. access_log
+	2. error_log
+	3. mod_jk.log
+JBOSS Logs
+---------
+1. server.log --<EAP-HOME>/standalone/log, <EAP-HOME>/domain/servers/<server-name>/log
+
+
+2. host-controller.log <EAP-HOME>/domain/log
+3. process-controller.log <EAP-HOME>/domain/log
+
+
+01-Feb-2018
+----------
+***Thread Dumps 
+***Heap Dumps
+***Garbage collector
+***Troubleshooting OOM errors
+
+
+Download IBM Thread Analyzer jca457.jar
+Download IBM Heap Analyzer ha456.jar
+
+02-Feb-2018
+---------
+Notes-heap dumps, GC,standalone and domain mode, WebServerVS AppServer
+Heap Classification
+Connection Pool
+Configuring jprofiler
+Configuring mod_cluster
+
+
+
+
+
+
+
+
+https://developer.jboss.org/thread/234926?_sscc=t
+
+https://docs.jboss.org/mod_cluster/1.2.0/html/faq.html
+
+http://douglastarr.com/how-to-allow-unsafe-ports-in-chrome
+
+
+--explicitly-allowed-ports=6666
+
+domain.xml
+---------
+This file holds the domain configuration such as profiles to apply to server instances, server groups, deployments and management interface access control. It is only used by the domain master.
+
+host.xml
+---------
+This is the default configuration file for the host controller. If no alternative host configuration is specified on the command line this file will be used.
+
+host-slave.xml
+-------------
+An example configuration file for a slave host. You can edit this file for the slave host or the host.xml above. If you edit this file you will need to provide it on the command line when running the domain.sh script.
+
+host-master.xml
+---------------
+An example configuration file for a master host. You can edit this file for the master host or the host.xml above. If you edit this file you will need to provide it on the command line when running the domain.sh script. The host.xml file is already configured for master mode.
+
+IMP - Points:
+Add IP Addresses of both machines in vi /etc/hosts file
+service network restart
+
+Configuiring Master-slave in two boxes
+--------------------------------------
+
+IMP - Points:
+Add IP Addresses of both machines in vi /etc/hosts file
+service network restart
+
+
+1. Install JBOSS on two machines
+
+Machine - A (Master)			Machine - B (Slave)
+--------------------			-------------------
+IP - 192.168.48.128			IP - 192.168.48.129
+
+EAP6 Server on master will be configured as a domain controller, and the EAP6 server running on slave will accept the management of master
+
+2. For our understanding purpose, I will rename server name under other-server-group on master IP (Machine - A) host.xml as master-server
+
+<host name="master" xmlns="urn:jboss:domain:1.7">
+<server name="master-server" group="other-server-group" auto-start="true">
+            <socket-bindings port-offset="250"/>
+</server>
+
+
+3. For our understanding purpose, I will rename server name under other-server-group on Slave IP (Machine - B) host.xml as slave-server
+
+<host name="slave" xmlns="urn:jboss:domain:1.7">
+<server name="slave-server" group="other-server-group" auto-start="true">
+            <socket-bindings port-offset="250"/>
+</server>
+
+
+make auto-start="false" for other servers if applicable in host.xml
+
+4. Below processes are running on master on Machine-A
+-----------------------------------------------------
+Process Conrroller
+Host Controller
+master-server
+
+Below processes are running on Slave on Machine-B
+-----------------------------------------------------
+Process Conrroller
+Host Controller
+master-server
+
+The host controller running on a master (Machine-A) will act as the domain controller 
+The host controller running on a Slave (Machine-B) will accept the management from the domain controller
+
+
+5. Change binding adresses to communicate servers each other on different machines
+
+	In host.xml of Machine-A specify the ipaddress of Machine-A
+	 <interfaces>
+        <interface name="management">
+            <inet-address value="${jboss.bind.address.management:192.168.48.128}"/>
+        </interface>
+        <interface name="public">
+            <inet-address value="${jboss.bind.address:192.168.48.128}"/>
+        </interface>
+        <interface name="unsecure">
+            <inet-address value="${jboss.bind.address.unsecure:192.168.48.128}"/>
+        </interface>
+    </interfaces>
+6. Adding a user account for slave server
+The two servers (master-server and slave-server) will be managed by the domain, and we need to use host controllers to connect to the domain. The communication between the two host controllers needs to be authenticated.
+
+Execute ./add-user.sh from Machine-A to create user account for slave
+
+
+login as: root
+root@192.168.48.128's password:
+Last login: Fri Apr 14 21:18:03 2017 from 192.168.48.1
+[root@localhost ~]# cd /opt/EAP-6.4.0/
+[root@localhost EAP-6.4.0]# cd bin
+[root@localhost bin]# ./add-user.sh
+
+What type of user do you wish to add?
+ a) Management User (mgmt-users.properties)
+ b) Application User (application-users.properties)
+(a): ^C[root@localhost bin]# clear
+[root@localhost bin]# ./add-user.sh
+
+What type of user do you wish to add?
+ a) Management User (mgmt-users.properties)
+ b) Application User (application-users.properties)
+(a):
+
+Enter the details of the new user to add.
+Realm (ManagementRealm) :
+Username : slave
+Password requirements are listed below. To modify these restrictions edit the add-user.properties configuration file.
+ - The password must not be one of the following restricted values {root, admin, administrator}
+ - The password must contain at least 8 characters, 1 alphabetic character(s), 1 digit(s), 1 non-alphanumeric symbol(s)
+ - The password must be different from the username
+Password :
+Re-enter Password :
+What groups do you want this user to belong to? (Please enter a comma separated list, or leave blank for none)[  ]:
+About to add user 'slave' for realm 'ManagementRealm'
+Is this correct yes/no? yes
+Added user 'slave' to file '/opt/EAP-6.4.0/standalone/configuration/mgmt-users.properties'
+Added user 'slave' to file '/opt/EAP-6.4.0/domain/configuration/mgmt-users.properties'
+Added user 'slave' with groups  to file '/opt/EAP-6.4.0/standalone/configuration/mgmt-groups.properties'
+Added user 'slave' with groups  to file '/opt/EAP-6.4.0/domain/configuration/mgmt-groups.properties'
+Is this new user going to be used for one AS process to connect to another AS process?
+e.g. for a slave host controller connecting to the master or for a Remoting connection for server to server EJB calls.
+yes/no? yes
+To represent the user add the following to the server-identities definition <secret value="c2xhdmUxMjMk" />
+
+The above secret value is generated at the time of creating user account, we need that secret value for slave-server to connect to master-server
+
+
+7. Configuring Slave 
+In Machine-B host.xml specify secret value and provide master ip in slave host.xml
+
+ <management>
+        <security-realms>
+            <security-realm name="ManagementRealm">
+
+		<server-identities>
+                     <!-- Replace this with either a base64 password of your own, or use a vault with a vault expression -->
+                     <secret value="c2xhdmUxMjMk"/>
+                </server-identities>
+
+
+
+
+ <domain-controller>
+      
+	<remote host="192.168.48.128" port="9999" security-realm="ManagementRealm"/>
+
+       <!-- Alternative remote domain controller configuration with a host and port -->
+       <!-- <remote host="${jboss.domain.master.address}" port="${jboss.domain.master.port:9999}" security-realm="ManagementRealm"/> -->
+    </domain-controller>
+
+ 	<interfaces>
+        <interface name="management">
+            <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
+        </interface>
+        <interface name="public">
+           <inet-address value="${jboss.bind.address:192.168.48.129}"/>
+        </interface>
+        <interface name="unsecure">
+            <!-- Used for IIOP sockets in the standard configuration.
+                 To secure JacORB you need to setup SSL -->
+            <inet-address value="${jboss.bind.address.unsecure:192.168.48.129}"/>
+        </interface>
+    </interfaces>
+
+8. Test the configuration
+	Execute ./domain.sh on master
+	Execute ./domain.sh on slave
+
+
+
+
+Steps to configure master-slave configuration with two boxes
+------------------------------------------------------------
+1. Take two Machines 
+	Machine-A		Machine-B
+	192.168.48.162		192.168.48.161
+2. Install JBOSS in both the machines
+3. Take a backup of domain configuration files
+4. Create a Servergroup (Amazon_Server_group) and OneServer (Amazon_Server1_Master) in Machine-A
+5. Create a Servergroup (Redbus_Server_group) and OneServer (Redbus_Server1_Slave) in Machine-B
+6. Create an user account in master and copy secret value which is required in slave machine
+	<secret value="dGVzdDEyMyQ=" />
+7. Add the generated secret value in slave host.xml and provide master ip in slave box
+8. In the domain controller section add the username
+ <domain-controller>
+ 
+       <remote security-realm="ManagementRealm" 							username="jbosstest">
+ 
+
+./domain.sh --host-config=host-slave.xml -b 192.168.48.161 -Djboss.domain.master.address=192.168.48.162
+
+
+
+
+
+
+
+
+
+ <discovery-options>
+             
+
+
+
+
+ value="dGVzdDEyMw==" />
+
+bin/domain.sh --host-config=host-slave.xml -Djboss.bind.address=192.168.100.10 -Djboss.bind.address.management=192.168.100.10 -Djboss.domain.master.address=192.168.1.17
+
+sudo -u jboss ./domain.sh -Djboss.domain.base.dir=$YOUR_DOMAIN_BASE_DIR -Djboss.domain.master.address=$MASTER_IP --host-config=host-slave.xml
+
+bug
+---
+https://issues.jboss.org/browse/AS7-3137
+
+
+krishna123
+krishna123$
+
+<secret value="a3Jpc2huYTEyMyQ=" />
+
+
+
+jbosstest
+
+
+value="amJvc3N0ZXN0JA==" 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

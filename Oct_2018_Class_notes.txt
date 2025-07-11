@@ -1,0 +1,228 @@
+
+Agenda 30-Oct-2018
+-----------------
+1. Installation of JAVA
+2. Installation of JBOSS
+	1. GUI Mode
+	2. Console Mode
+3. Basic Operations on JBOSS
+	1. Starting Server, Stopping Server
+	2. Starting Server with different ports
+	3. Accessing management console
+	4. Deploying sample application
+
+Pre-req to install JBOSS
+------------------------
+Install JAVA
+Configure JAVA PATH
+minimum of 500 mb
+256 mb ram
+
+1. JBOSS Installation by using GUI Mode
+
+
+C:\EAP-7.1.0_OCT -- EAP-HOME / JBOSS-HOME
+
+
+By default jboss will use the ports
+9990
+8080
+8443
+8009
+http://ip-address:9990/console
+http://localhost:9990/console
+
+C:\EAP-7.1.0_OCT\standalone\configuration
+standalone.xml
+
+
+
+Agenda 01-Nov-2018
+------------------
+1. Creating multiple instances in standalone mode
+2. Starting a server in domain mode
+3. Creating multiple instances in domain mode
+4. Deploying and accessing application in domain mode
+
+
+
+
+Creating Instances in Domain mode
+---------------------------------
+1. Create a Server Group
+2. Create instances
+
+
+standalone.bat -Djboss.server.base.dir="C:\EAP-7.1.0_OCT\standalone-server2" -Djboss.socket.binding.port-offset=200
+
+Agenda 02-Nov-2018
+-------------------
+1. JEE profiles
+2. JBOSS profiles
+3. Extensions, subsystems and modules
+4. Starting Servers with different profiles
+
+
+profile
+-------
+
+
+Agenda 03-Nov-2018
+------------------
+1. Installing Oracle
+2. Configuring driver
+3. Configure JBOSS with Oracle by using management console
+
+
+
+http://localhost:8080/apex/
+
+
+jdbc:oracle:thin:@localhost:1521:xe
+
+
+protocol:subprotocol:type of driver:@db host namae:port number of db server:database name
+
+
+Agenda 04-Nov-2018
+------------------
+1. Configure JBOSS with Oracle by using jboss-cli
+2. Configure JBOSS with Oracle by using xml files
+
+
+
+Steps to configure Oracle with JBOSS by using JBOSS CLI
+-----------------------------------------------------------
+Connect to jboss-cli
+1. Load the jar file by executing a command
+module add --name=com.oracle --resources=F:\Softwares\Oracle\ojdbc6.jar --dependencies=javax.api,javax.transaction.api
+
+2. Load the driver in xml file with the command
+/subsystem=datasources/jdbc-driver=oracle:add(driver-name=oracle,driver-module-name=com.oracle)
+
+3. Create a datasource with 
+data-source add --jndi-name=java:/jboss/Oracle_DS  --name=Oracle_DS  --connection-url=jdbc:oracle:thin:@localhost:1521:xe --driver-name=oracle --user-name=system --password=admin
+
+4. We can test the connection with a command
+/subsystem=datasources/data-source=Oracle_DS:test-connection-in-pool
+
+5. If it is connected, we will get "outcome : success"
+
+
+
+Troubleshooting DB connectivity issues
+---------------------------------------
+1. First I will check server.log
+2. If there are any socket exceptions, listener refused, net exceptions, and network adapter exceptions, I will check the connectivity between JBOSS host and DB host
+3. I will execute telnet <hostname of db server> <port number of dbserver>
+	(telnet 192.168.48.161 1521 - if its connected we will get connected message)
+4. If it's not connected check with the DB team that DB server is running or not and running on which port number
+5. Cross verify the url once again in the xml and try test connection
+6. If we get classNotFoundException in the server.log, we have to check proper jar is placed and proper driver class is updated in the drivers section in data source subsystem
+7. If we get access denied, check the username and password are correct 
+8. This is the way how I will troubleshoot DB issues
+
+
+2. Steps to configure JBOSS with Oracle by using XML files
+-----------------------------------------------------------
+1. Load the jar file to the modules directory under 
+	<EAP-HOME>/modules\system\layers\base\com\oracle\main
+2. Create module.xml in the same location
+3. Specify the driver name, jar name and dependencies in the module.xml
+	name="com.oracle"
+	<resource-root path="ojdbc6.jar"/>
+  <dependencies>
+    <module name="javax.api"/>
+    <module name="javax.transaction.api"/>
+  </dependencies>
+4. In the standalone.xml or domain.xml specify data source JNDI name, pool name, connection url, driver name, user name and passord
+5. Save the changes and restart the server
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
