@@ -1,0 +1,349 @@
+Git
+====
+SDLC --> Software Development Life Cycle 
+	1. Waterfall model
+	2. Agile model
+	3. v model
+	etc...
+waterfall model:
+it is oldest sdlc model. it is also known as linear sequential model 
+in this model every phase must be completed.before the next phase can be begin.all phases will be performed one by one.
+
+Agile model:
+this is the most popular model for software development.
+agile model divided into multiple sub models.
+	most popular and frequently used model is scrum model.
+Scrum:
+it ensures effective usage of time and money.
+there is maximum chance for quality.
+requiement changes will be accepted so that so that maximum chance for client satisfaction.
+there is a posiibility for the client interaction in every phase.
+
+version control:
+-------------
+version controlsystem is also known as software configuration management or source code management (SCM)system.
+version control system always talk about files which contain source code .
+
+Repository:
+where we have to store files and metadata.
+here version control is applicable.
+here we can talk about versions like v1,v2 etc...
+
+commit:
+the process of sending files from working directory  to repository.
+
+checkout:
+the process of sending files from repository to working directory.
+
+there are 2 types of version control system.
+	1. centralised version control system.
+	2. distributed version control system.
+Distributed version control sytem:
+----------------
+every developer workspace contaains a local repository.
+the checkout and commit operations will be performed in workspace to  local repository.
+workspace --> commit --> repository
+repository --> checkout --> workspace
+push and pull operations will be performed between repositories.
+one repository ---> push -->other repository
+one repository <--- pull -- other repository
+every developer has his own local copy of repository.it is not centralised and it is distributed only.
+
+ex: git
+
+Git Architecture
+----------------
+Git is distributed version control system tool.
+most of the companies like microsoft,facebook using Git as a version control system tool.
+
+features:
+a. distributed.
+b. staging area: it is also called as index area.
+there is logical/vertual layer in git between working directory and local repository.
+working directory --> staging area ..> local repository.
+we cannot commit the files of working directoey directly.first wehave to add to the staging area and then we have to commit.
+this staging area is helpful to double check and crosscheck our changes before commit.
+git stores files in repository in some hash form, which saves space. 
+git will uses  internally snapshot mechanism for this.all this conversions and taking snapsahots of our data will be happaened in staging area before commit.
+hence staging area is the most important strength of git.
+c. Branching and Merging:
+we can create and work on multiple branches simultaneously and all are branches are isolated from each other. it enables multiple work flows.
+we can meerge multiple branches into a single branch. we can commit branch wise also.
+
+GIt contains 2 types of repositories:  
+1) Local Repository  
+2) Remote Repository 
+For every developer, a separate local repository is available. Developer can perform all 
+checkout and commit operations wrt local repository only.
+To perform commit operation, first we have to add files to staging area by using git add command, and then we have to commit those changes to the local repository by using git 
+commit command. Hence commit in GIT is a 2-step process.
+
+If the developer wants to share his work to the peer developers then he has to push his local repository to the remote repository by using git push command.
+Remote repository contains total project code, which can be accessible by all developers.
+ 
+New developer can get local repository by cloning remote repository.For this we have to use git clone command. 
+ 
+A developer can get updates from the remote repository to the local repository by using git pull command. 
+
+git add -->To add files from working directory to staging area. 
+git commit-->To commit changes from staging area to local repository. 
+git push-->To move files from local repository to remote repository. 
+git clone-->To create a new local repository from the remote repository. 
+git pull-->To get updated files from remote repository to local repository.
+
+ Life cycle of Git
+ ----------------
+Every file in GIT is in one of the following states: 
+untracked
+staged
+in repository/committed:
+modified:
+
+These are common Git commands used in various situations: 
+ 
+start a working area (see also: git help tutorial) 
+   clone             Clone a repository into a new directory 
+   init                 Create an empty Git repository or reinitialize an existing one 
+ 
+work on the current change (see also: git help everyday) 
+   add               Add file contents to the index 
+   mv                Move or rename a file, a directory, or a symlink 
+   restore        Restore working tree files 
+   rm                Remove files from the working tree and from the index 
+   sparse-checkout   Initialize and modify the sparse-checkout 
+ 
+examine the history and state (see also: git help revisions) 
+   bisect            Use binary search to find the commit that introduced a bug 
+   diff                 Show changes between commits, commit and working tree, etc 
+   grep               Print lines matching a pattern 
+   log                  Show commit logs 
+   show              Show various types of objects 
+   status            Show the working tree status 
+ 
+grow, mark and tweak your common history 
+   branch             List, create, or delete branches 
+   commit            Record changes to the repository 
+   merge              Join two or more development histories together 
+   rebase             Reapply commits on top of another base tip 
+   reset                Reset current HEAD to the specified state 
+   switch             Switch branches 
+   tag                   Create, list, delete or verify a tag object signed with GPG 
+ 
+collaborate (see also: git help workflows) 
+   fetch             Download objects and refs from another repository 
+   pull                Fetch from and integrate with another repository or a local branch 
+   push              Update remote refs along with associated objects 
+   
+github link http://127.0.0.1:54550
+
+practical steps
+=====================================
+    1  git add indra.txt sena.txt
+    2  git --version
+    3  git
+    4  cd d:
+    5  d:
+    6  D:
+    7  cd f:
+    8  mkdir project
+    9  cd project
+   10  mkdir WAS-Project
+   11  cd WAS-Project/
+   12  git init
+   13  git status
+   14  cat > profiles
+   15  cat > ProfileTemplates
+   16  git statuss
+   17  git status
+   18  ls
+   19  git ls-files
+   20  git add profiles ProfileTemplates
+   21  git status
+   22  git config --global user.email "indra25.cloud@gmail.com"
+   23  git config --global user.name "Indra"
+   24  git commit-m "Added two files profiles ProfileTemplates"
+   25  git commit-tree "Added two files profiles ProfileTemplates"
+   26  git commit -m "Added two files profiles ProfileTemplates"
+   27  git status
+   28  git log
+   29  exit
+   30  cd f:
+   31  cd project/WAS-Project/
+   32  cat >> profile
+   33  git status
+   34  git add profile
+   35  git status
+   36  cd profile
+   37  git commit -m
+   38  git commit -m "one file modified"
+   39  git commit -a -m "one file modified"
+   40  git log
+   41  git config --list
+   42  git log profile
+   43  git log --online
+   44  git log --oneline
+   45  git diff profile
+   46  diff --git a/profiles b/ProfileTemplate
+   47  git diff profiles
+   48  git diff HEAD profiles
+   49  git rm profile
+   50  ls
+   51  git rm --cached profiles
+   52  ls
+   53  git ls-files
+   54  rm profiles
+   55  ls
+   56  git checkout profiles
+   57  exit
+   58  git --version
+   59  f:
+   60  cd f:
+   61  mkdir project
+   62  cd project/
+   63  mkdir git-project
+   64  cd  git-project/
+   65  git init
+   66  git status
+   67  git cat > a.txt
+   68  cat > a.txt
+   69  cat > b.txt
+   70  git status
+   71  ls
+   72  git ls-files
+   73  git config --global user.email "indra25.cloud@gmail.com"
+   74  git config --global user.name "Indra"
+   75  git commit . -a -m "Added two files"
+   76  git commit -m "both files added"
+   77  git ls-files
+   78  git add .
+   79  git commit -m "both files added"
+   80  git ls-files
+   81  git status
+   82  git log
+   83  cat >> a.txt
+   84  cat >> b.txt
+   85  git status
+   86  git commit -a -m "both files modified"
+   87  git log
+   88  git status
+   89  git status -s
+   90  git log --help
+   91  git log a.txt
+   92  cat >> a.txt
+   93  git log a.txt
+   94  git status
+   95  git -am "file modified"
+   96  git -a -m "file modified"
+   97  git commit -am "file modified"
+   98  git log a.txt
+   99  git log --oneline
+  100  git log -n 2
+  101  git log -n 1
+  102  git log --grep="pattern"
+  103  git log --grep="both"
+  104  git log --grep="soft"
+  105  git log --grep="*soft"
+  106  git log --grep="middleware"
+  107  git log --grep="middleware" -i
+  108  notepad a.txt
+  109  git log --grep="scrum" -i
+  110  git log --grep="git" -i
+  111  git log --oneline
+  112  git log --grep="scrum" -i a.txt
+  113  git grep "scrum" -- a.txt
+  114  git log --since="5 minutes ago"
+  115  ls
+  116  git log --author=Indra
+  117  git log --decorate --oneline
+  118  cat >> a.txt
+  119  cat >> b.txt
+  120  git add a.txt
+  121  cat >> a.txt
+  122  git diff a.txt
+  123  git diff HEAD a.txt
+  124  git commit -am "a.txt is updated"
+  125  git diff HEAD a.txt
+  126  git diff a.txt
+  127  git diff --staged HEAD a.txt
+  128  git diff 3d5d1f2 a.txt
+  129  git diff master  test
+  130  exit
+  131  cd f:
+  132  cd project/git-project/
+  133  ls
+  134  git ls-files
+  135  git --version
+  136  exit
+  137  cd f:
+  138  cd project/
+  139  mkdir test
+  140  ls
+  141  cd test/
+  142  git init
+  143  cat > file1.txt
+  144  git add file1.txt
+  145  git commit -m "file updated"
+  146  cat >> file1.txt
+  147  ls
+  148  git ls-files
+  149  git add file1.txt
+  150  git commit -m "file modified"
+  151  cat > file2.txt
+  152  ls
+  153  git ls-files
+  154  cat >> sample text
+  155  cat >> file2.txt
+  156  cat >> file1.txt
+  157  git diff file1.txt
+  158  git status
+  159  git add file2.txt
+  160  git commit -m "both files updated"
+  161  git ls-files
+  162  git diff file1.txt
+  163  git add file1.txt
+  164  git commit -m "file1 modified"
+  165  git diff file1.txt
+  168  git clone https://github.com/indra25cloud/project
+  169  git status
+  170  ls
+  171  cd project/
+  172  ls
+  173  cd ..
+  174  cd ..
+  175  git ls-files
+  176  cd git-project/
+  177  ls
+  178  git ls-files
+  179  git branch feature-xyz
+  180  git checkout feature-xyz
+  181  git merge feature-xyz
+  182  git status
+  183  git remote add origin https://github.com/indra25cloud/project/
+  185  git push origin master
+  186  cd ..
+  187  ls
+  188  cd test/
+  189  ls
+  190  cd project/
+  191  ls
+  192  cd ..
+  193  rm project/
+  194  rm -rf project/
+  195  ls
+  196  git pull origin master
+  197  git remote -v
+  199  git remote add origin https://github.com/indra25cloud/project
+  200  git remote -v
+  201  git remote remove origin
+  202  git remote -v
+  203  git remote add origin https://github.com/indra25cloud/Middleware
+  204  git pull origin master
+  205  git status
+  208  git add sample
+  209  git commit -m "sample dir added"
+  210  git status
+  211  git pull origin master
+  212  git pull origin master --allow-unrelated-histories
+  213  git push origin master
+	   git push -u origin master
+ 214   git remote remove origin
