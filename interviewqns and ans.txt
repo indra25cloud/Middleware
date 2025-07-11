@@ -1,0 +1,450 @@
+1. What is an application and types of applications?
+An application is a collection of resouces. which contains servlets,jsp,ejbs,xml files,.property files,images,jar,java script build together to fullfill business requirements.
+ex: wallmart.com,amazon.com,sbi.in
+There are 2types of applications 
+	1.web application
+	2. enterprise application
+	
+1. web application: 
+It contains servlets and jsp as the major components along with xml files,images,jar,java classes and .property files.if it is a web application server, developers will build it as a .war file ( webarchive)
+2. enterprise application
+it contains servlets,jsp and ejbs like  session beans,entity beans and message driven beans along with html files,xml files,jar,java classes,images and . propertyfiles. if an applicationhave ejbs, developers will build it as .ear file (enterprise archive)
+
+2. What is an application server?
+An application server receives request from end-users,searches for the appropriate resouces,executes the resources and generates a response back to the end-users.in applicationservers like jboss,websphere,weblogic we can deploy both .war and .ear files.
+
+3.What are the different versions of WAS?
+WebSphere Application Server 7.0
+WebSphere Application Server 8.0
+WebSphere Application Server 8.5
+WebSphere Application Server 8.5.5
+latest version is 9.0
+
+4.What are different types of packages
+There are 3 types of packages.
+    1. WebSphere Application Server  - Express Package
+	2. WebSphere Application Server  - Base Package  
+	3. WebSphere Application Server  - Network Deployment Package
+
+5.What are the pre-req to check before installing WAS?
+	1. free diskspace -- df-h
+	2. free memory 
+	3. permissions
+	4. cpu
+	5. compatibility
+	
+34. What is a jar file?
+	A JAR (Java ARchive) file is a compressed package that contains Java class files, libraries, resources, and metadata bundled together into a single file with a .jar extension.at the time of configuring WAS with Oracle db we need ojdbc8.jar or ojdbc.11.jar
+
+35. What is the jar file required, to configure WAS with Oracle?
+	ojdbc8.jar (for Java 8 and Oracle 12c/19c)
+					or 
+	ojdbc11.jar (for Java 11 and Oracle 19c/21c)	
+
+36. If a jar file is not properly configured, what is the error, we will get at the time of test connection?
+	If the JDBC driver JAR is missing or not properly configured in the classpath of the JDBC Provider, you will typically get an error like:
+	java.lang.ClassNotFoundException: [JDBC Driver Class Name.because the application server can't locate the JDBC driver class.
+	
+37. Explain how to configure Datasource ?
+	To configure datasource first we need to login admin console,expand resources,select jdbc provider and select scope (node level,cell level,cluster level) while configuring jdbc provider,we need to select type of database name(oracle,mysql,postgres) , and provider type and implementation type .here 2 types of implementation 1. connection pool datasource 2.XA datasource.and we need to provide the path of the jar file,
+	for oracle we need ojdbc8.jar, otherwise we will get java.classnotfound exception error.save the changes and create a datasource while creating select the jdbc provider type and JNDI name and datasource name and connection url, for oracle jdbc:oracle:thin:@hostname of database server , listener portno.by default 1521 and sid.(jdbc:oracle:thin:@localhost 1521 XE).after that goto j2c authentication create an alias name and provide alias name ,provide username and password save the changes. and map the alias name under component managed authentication ans save the changes and test the connection.if datasource is properly configured whenever test the connection will get the message test connection was sucesful.
+38. What is a JDBC Provider
+ 
+39. What is a DataSource?
+	A DataSource is like a bridge between your application and the database. It stores the connection settings (like database URL, username, and password) and manages connections efficiently, often using a connection pool.
+ 
+ A DataSource contains:
+	Database URL
+	Username / Password
+	Driver class (e.g., com.mysql.jdbc.Driver)
+	Connection pool settings (min/max connections, timeout, etc.)
+	
+
+40. What is the difference between Connection pool DataSource and XA DataSource?
+  Connection Pool DataSource (Non-XA):
+	Uses javax.sql.DataSource.
+	Only supports local transactions.
+	Does not participate in JTA global transactions.
+
+  XA DataSource:
+	Uses javax.sql.XADataSource.
+	Participates in JTA global transactions.
+	Supports 2PC (Two-Phase Commit) managed by WebSphere's transaction manager.
+	
+41. What are the XML files that are updated while configuring DataSoure?
+	while configuring a datasource 2 xml files are generated.
+		1.variable.xml
+		2. Resource.xml
+	
+42. What is a connection pool
+	It contains pre-defined connection objects. If we have a connection pool, after completion of transactions, connection objects are back to the pool. That connection objects can be reused for further incoming request.
+	So that we will reduce the delay in the response.
+	
+43. What are Connection pool Properties
+	1. Minimum Connections: It tells the minimum number of connection objects to be maintained, even though its in idle state. By default 1 is the minimum connection
+	2. Maximum Connection: It tells upto what extent a connection pool can grow. By default it's 10 connection objects
+	3. Unused Timeout: It tells the time interval, how long connection objects can be idle, before being closed. By default its 1800 seconds
+	4. Aged Timeout: It tells maximum time of a connection object with a request or life time of connection object with a request, By default its 0.
+	5. Reap Time: it's the time interval which tells, when the pool maintenance thread has to run across the pool to scan unused connection objects and aged timeout connection objects. Once it identifies any connection objects are matching to the time intervals of unused timeout and aged time out, it will take an action on that connection objects. It will decide, connection objects to be in  the pool or to be discarded from the pool. By default its 180 seconds
+	6. Connection Timeout: It tells maximum time a server can wait for a free connection object, before throwing an error (connectionwaittimeout exception), default is 180sec
+	7. Purge Policy: its tells what to do with connection objects, when there is an error
+  There are two purge policies
+	1. Entire Pool
+	2. Failing Connections Only
+
+44. What is a reap time
+	Reap Time is a parameter used in resource management, particularly in connection pooling (like JDBC connection pools) in WebSphere Application Server.
+	it's the time interval which tells, when the pool maintenance thread has to run across the pool to scan unused connection objects and aged timeout connection objects. Once it identifies any connection objects are matching to the time intervals of unused timeout and aged time out, it will take an action on that connection objects. It will decide, connection objects to be in  the pool or to be discarded from the pool. By default its 180 seconds
+
+45. What's the reason of stale connection exception?
+	A StaleConnectionException occurs when an application tries to use a connection from the pool, but that connection is no longer valid.
+	This is a common issue in WebSphere when using JDBC connection pools.
+
+ Common Reasons for Stale Connection Exception:
+	1.Database Server Restarted / Failover:
+		If the database server goes down or is restarted, existing connections in the pool become invalid.
+		But WebSphere is unaware until the next attempt to use that connection.
+	2.Network Issues:
+		Network disconnection or timeouts between WebSphere and the database server can cause connections to become invalid.
+	3.Firewall Timeouts / NAT Idle Timeouts:
+		Intermediate devices (like firewalls, load balancers) might drop idle connections due to inactivity.
+		When the app tries to use them, they are already dead.
+	5.Database Connection Timeouts / Limits:
+		DB server itself might terminate idle connections due to inactivity policies.
+
+	
+47. What's the use of JNDI ?
+	JNDI- Java Naming and Directory Interface
+ 
+48. What is a context root
+	A context root is a unique to invoke or access the applications
+
+49. Explain how to deploy an application using admin console?
+	login to admin console,goto applications and applicationtypes - WebSphere enterprise applications
+	click on install 
+	Choose "Local file system" if the file is on your computer.
+	Click Browse, select the .ear / .war file.
+	click next 
+	You’ll be prompted for installation options:
+	choose application name 
+	Choose a context root (for WAR).
+	Confirm the installation target (usually the server or cluster).
+	Click Next to proceed through the options (you can accept most defaults unless specific configuration is required).
+	WebSphere will list the modules (e.g., web module, EJB module).
+	Map each module to the appropriate application server or cluster.
+	Click Next.
+	Click Finish to install the application.
+	review and save the file.
+	The system will process the deployment and return a success message.
+	
+50. In which location, application will be deployed by default
+	<WAS_PROFILE_HOME>/installedApps/<cell_name>/<application_name>.ear
+
+
+
+51. What is the difference you noticed while deploying .war file and .ear file
+	1.war file:
+	Directly asks for context root.
+	Limited configuration steps.
+	2..ear file:
+	Asks for context roots of all embedded .war files.
+	Also asks for module-to-server mapping for each module.
+	Handles more complex configuration like EJB bindings, resource adapters, etc.
+
+	
+52. What is the log file that is updated at the time of deploying an application
+	 SystemOut.log
+	 <WAS_PROFILE_HOME>/logs/<server_name>/SystemOut.log
+
+53. What is the wsadmin command to deploy the application ?
+	AdminApp.install('F:/WAS_ND_7.0/installableApps/DefaultApplication.ear', ['-appname', 'Default', '-node', 'DESKTOP-LL81H7CNode02', '-server', 'server1'])
+	AdminConfig.save()
+	
+54. What are different wsadmin object and whats the use of each object?
+	There are 5 wsadmin objects
+	 1. AdminControl - start/stop servers and monitoring servers.
+	 2. AdminConfig - create jdbc driver,datasource,jms and update configuration
+	 3. AdminApp - application deployment,uninstall,updating application backup.
+	 4. adminTask - create servers,clusters,security updates.
+	 5. Help - it helps to check the options and usage of each objects.
+	 
+55. what is the comand to start/stop a server by using wsadmin?
+	AdminControl.startServer('server1', 'DESKTOP-LL81H7CNode02')
+	AdminControl.stopServer('server1', 'DESKTOP-LL81H7CNode02')
+	
+56. iam trying to deploy an application but its failed.how to troubleshoot this issue?
+	After deployment fails, the console usually shows a brief error message.
+	then check the systemout.log and syserr.log. based on that error we will troubleshoot the issue. 
+	commonly faced issues are:
+							Invalid EAR/WAR structure
+							ClassNotFoundException
+							Port conflicts
+							Resource mapping issues
+	1.Invalid EAR/WAR structure:
+	   The application archive file (.ear or .war) is missing required folders or files, or has them in the wrong place.
+	   Example Errors:
+				META-INF/application.xml missing
+				WEB-INF/web.xml not found
+	2. ClassNotFoundException: Unsupported Java EE Version
+		ClassNotFoundException, UnsupportedClassVersionError
+	3. port conflicts :
+		If you're encountering port conflicts during deployment in WebSphere Application Server (WAS), it means that two services (e.g., servers, applications, or listeners) are trying to use the same port number on the same host, which is not allowed.
+		--Identify the Conflicting Port
+		--Check Current Port Assignments
+		   Servers → Server Types → WebSphere application servers → <server_name> --> ports
+		 -- Find the Process Using the Port  
+		   netstat -tulnp | grep <port>
+		 --Change the Conflicting Port in WAS
+		 Servers → Server Types → WebSphere application servers → <server_name> → Ports
+		 click on save and restart the server.
+		 
+	4.Resource mapping issues:  Incorrect Context Root or Module Mapping
+		During deployment, make sure the module is mapped to the server.
+		Your web module is not mapped to a server or has a wrong context root.
+		
+		
+57. while accesing an application, iam getting an error.webgroup virtualhost has not been defined .how to troubleshoot this issue?
+	
+	The error "WebGroup/Virtual Host has not been defined" in WebSphere Application Server usually occurs when your application’s context root or URI is not properly mapped to a virtual host (usually default_host or admin_host), or the virtual host itself is misconfigured.
+	
+	Troubleshooting:
+		1. Verify the Virtual Host Mapping
+			Applications → WebSphere enterprise applications → YourApp → Manage modules
+			Select your web module.
+			Check the Virtual Host setting:
+			Make sure it is mapped to default_host (or another properly configured virtual host).
+			If not, change it to default_host.
+			Click OK → Save to master configuration.
+		2. Check Virtual Host Configuration:
+			Environment → Virtual Hosts → default_host → Host Aliases
+		 **	9080 (for HTTP)
+		 ** 9443 (for HTTPS)
+		 ** Or localhost 9080 if using localhost
+		3. If the required port is missing, click New and add:
+		4. Save and restart the server.
+
+58. What is the command to generate plugin-cfg.xml file and in which location plugin-cfg.xml file will be generated
+		You can use the GenPluginCfg.sh
+		<WAS_PROFILE_HOME>/config/cells/plugin-cfg.xml
+	
+	
+59. What is meant by plugin propagation
+	Plugin Propagation in WebSphere refers to the process of copying the plugin-cfg.xml file (which contains routing information) from WebSphere Application Server to the Web Server (e.g., IBM HTTP Server or Apache) so that the web server can route client requests correctly to deployed applications.
+
+	
+60. How to integrate IHS, Plugins and WebSphere?
+	The goal of this integration is to allow IBM HTTP Server (IHS) to forward client requests to WebSphere Application Server (WAS) using the Web Server Plugin.
+	Step-by-Step Integration Process:
+	1.Install IBM HTTP Server (IHS)
+	2.Install Web Server Plugin
+	3.Configure the Web Server in WebSphere
+	4.Generate and Propagate plugin-cfg.xml
+	5.Update httpd.conf (IHS Configuration File)
+	6. Start Services
+
+61. What is the purpose of plugins
+	plugins—specifically the Web Server Plugin—serve the critical purpose of routing incoming HTTP/HTTPS requests from a web server (like IBM HTTP Server or Apache) to the correct WebSphere Application Server or cluster.
+   Purpose of the Web Server Plugin:
+	Request Routing
+	Load Balancing
+	Failover Handling
+	Secure Communication
+	Seamless Integration
+    External Access Gateway		
+
+
+62. What info, does the plugin-cfg.xml file maintains
+	The plugin-cfg.xml file is a critical configuration file used by the Web Server Plugin (e.g., IBM HTTP Server) to route HTTP/HTTPS requests to the appropriate WebSphere Application Server or cluster.
+  It maintains the following key information:
+  1.Server and Cluster Details
+  2.Application URI Mappings (Context Roots)
+  3.Virtual Hosts/port no/host names
+  4.Load Balancing and Failover Info
+  5.Transport Protocols
+
+
+63. In what scenarios, we need to generate plugin-cfg.xml file
+   1.After Deploying or Updating an Application
+	When a new application is deployed or an existing one is updated, especially if the app has a new or changed context root.
+	The plugin needs to know the new routing info to forward requests correctly.
+   2.After Changing Server or Cluster Configuration
+	When you add or remove servers or clusters that handle application requests.
+	Changes in server names, ports, or cluster members require an updated plugin configuration.
+   3.After Changing Virtual Hosts or Ports
+	When you modify virtual host mappings or HTTP/HTTPS port numbers.
+	The plugin-cfg.xml must reflect these changes to route requests properly.
+  4.During WebSphere Environment Migration or Restore
+	After restoring from a backup or migrating to a new environment, regenerating plugin-cfg.xml ensures routing consistency.		
+		
+64. After deployment, if we forget to generate and propagate the plugin-cfg.xml file, what's the error we will get while accessing application.?
+	If the plugin-cfg.xml file is not generated and propagated to the web server after deployment, the application will not be recognized by the web server, and the following issues may occur:
+	HTTP 404 - Page Not Found
+	
+65. How to take application backup?
+	Log in to the WebSphere Admin Console.
+	Go to Enterprise Applications.
+	Select your application → Export.
+	Save the exported EAR file to a safe location.
+	
+66. What is a cluster and different types of clusters and explain the differences?
+	a cluster is a group of application server instances,that share the same configuration and are managed together. Applications deployed on a cluster are automatically replicated across all the servers in the cluster.
+	that work together to provide scalability, load balancing, and high availability for applications. Clustering allows applications to continue functioning even if one or more servers in the cluster fail.
+	
+  there are 2 types of clusters:
+	1. vertical clusters
+	2. horizantal clusters
+	
+  1. vertical clusters:
+		-> All server instances (cluster members) run on the same physical node.
+		-> Optimizes the use of CPU and memory on powerful machines.
+		-> Disadvantage: No protection against machine-level failure.
+  2. Horizantal clusters:
+		->Cluster members are spread across multiple physical machines or nodes.
+		->If one node goes down, others continue to serve traffic.
+		->More robust than vertical clusters.
+		
+67. How to configure Horizontal Cluster in WebSphere?		
+	A horizontal cluster spreads cluster members across multiple physical machines (nodes) to ensure high availability and fault tolerance.
+	
+  Prerequisites:
+		WebSphere Application Server ND installed on all machines.
+		All machines should be accessible over the network.
+		Deployment Manager (DMGR) running.
+		Node Agents running on each machine.
+		Nodes federated to the DMGR.
+		Same application and Java version on all nodes recommended.
+	configuration steps:
+		1. Install WebSphere ND on all machines (e.g., Node1 and Node2).
+		2. Start DMGR -./startmanager.sh
+		3. Federate Remote Nodes to DMGR - ./addNode.sh dmgr-hostname dmgr-soap no.
+		4. Login to Admin Console (DMGR) 
+		5. Navigate to:
+			Servers → Clusters → WebSphere application server clusters → New
+		Enter Cluster Name: e.g., MyCluster
+		Click Next
+		6. Add Cluster Members (from Different Nodes)
+			For each member:
+				Click Add Member
+				Select:
+				Node1 → Give member name: e.g., Server1
+				Node2 → Give member name: e.g., Server2
+			click finish save the configurations.
+			
+		7. Deploy Application to the Cluster
+			Go to: Applications → New Application → Enterprise Application
+			Upload the EAR/WAR file.
+			During deployment, target the cluster (MyCluster), not individual servers.
+		8. Start the Cluster
+			Navigate to: Servers → Clusters → WebSphere application server clusters
+			Select the cluster → Click Start
+			
+68. How to stop the requests to particular cluster member?
+	Navigate to :
+		1: Login to WebSphere Admin Console
+		2: Navigate to Cluster Members
+		   Servers → Clusters → WebSphere application server clusters → <YourCluster> → Cluster members
+		3: Edit the Target Cluster Member
+		4: Set Load Weight to 0
+			Click on a server → Set Weight for workload management
+		5: Save and Synchronize
+		6: if required regenerate the plugin-cfg file and copy it.
+		
+69. What is the default load balancing algorithm?
+	load balancing is used to distribute incoming requests across cluster members (application servers) efficiently.
+	default algorithm is Round Robin with Weighted Distribution.
+	How it Works:
+		WebSphere uses a Round Robin approach combined with load weights assigned to each cluster member.
+		Each server in the cluster is assigned a load weight (default is 2).
+		Requests are distributed in a round-robin fashion, respecting the weights.
+		for example: 
+			If Server1 has weight 4 and Server2 has weight 2, then:
+			Server1 will receive 4 requests
+			Server2 will receive 2 requests
+			...and then the cycle repeats (4:2 ratio)
+						
+70. What is session affinity?
+	Session Affinity (also called sticky session) is a load balancing feature that ensures all requests from the same client session are routed to the same application server instance during the session's lifetime.
+	Why Is It Used:
+		In many web applications, user data (like login state, shopping cart, etc.) is stored in HTTP sessions on the server. Without session affinity, requests could go to different servers and lose session data, causing errors or logouts.
+		How It Works in WebSphere:
+			WebSphere uses cookies (typically JSESSIONID) to maintain session affinity:
+				When a user first accesses the application:
+				They are routed to one cluster member (e.g., Server1)
+				That server sets a session cookie
+				In the next requests:
+					The load balancer (e.g., IHS with WebSphere plugin) reads the cookie
+					It routes the request back to the same server
+					
+			Where It’s Configured:
+				IBM HTTP Server (IHS) via plugin-cfg.xml
+				Set using WebSphere Admin Console:
+					Servers → Web server → plugin properties → Enable Affinity
+			
+			What Happens If the Server Goes Down:
+				If the target server (with session affinity) crashes:
+					The session will fail over to another server.
+					However, session data may be lost unless session persistence or replication is enabled.
+			To protect session data:
+			   Enable memory-to-memory session replication or
+			   Use persistent session management (like DB session storage)
+			   
+71. What are the differences between WAS 7.0 and WAS 8.5?
+	1. Java EE and JDK Support:
+	   -> WAS 7.0 supports Java EE 5 and runs on JDK 1.5 or 1.6.
+	   -> WAS 8.5 supports Java EE 6 and introduces support for JDK 1.6 and 1.7, offering better performance and more modern Java features.
+	2. Installation Method:
+		-> In WAS 7.0, the installation is done using the traditional installer wizard.
+		-> In WAS 8.5, IBM introduces the IBM Installation Manager (IIM) — a more powerful and flexible tool for installing, updating, and managing WebSphere products.
+
+	3. Admin Console and User Experience:
+		-> The admin console in WAS 7.0 has a basic layout and slower response time.
+		-> In WAS 8.5, the admin console is improved with a cleaner UI, better performance, and enhanced usability for managing large environments.
+	4. Liberty Profile:
+		-> WAS 7.0 does not support Liberty Profile.
+		-> WAS 8.5 introduces the Liberty Profile, a lightweight and modular server ideal for development, microservices, and cloud deployments. It supports fast startup and dynamic configuration.
+	5. Security Enhancements:
+		-> WAS 8.5 improves on the basic security features of WAS 7.0 with better SSL certificate management, SPNEGO/Kerberos integration, and LTPA version 2 tokens for enhanced single sign-on.
+	6. Logging and Tracing:
+		-> WAS 7.0 uses traditional log files and trace settings.
+		-> WAS 8.5 introduces HPEL (High Performance Extensible Logging) — which improves logging speed, reduces file size, and simplifies troubleshooting.
+	7. Scripting Improvements:
+		-> WAS 7.0 supports JACL and Jython scripting.
+		-> In WAS 8.5, JACL is deprecated, and Jython is the recommended scripting language for wsadmin automation.
+	8. Session Management Enhancements:
+		-> Session replication in WAS 7.0 is limited.
+		-> WAS 8.5 supports memory-to-memory session replication, offering faster failover and better high availability in clustered environments.
+	9. Clustering and Intelligent Management:
+		-> WAS 7.0 provides basic clustering.
+		-> WAS 8.5 introduces Intelligent Management, which includes dynamic clusters, health management, application edition management, and autonomic request flow control — features that help keep applications highly available and self-tuning.
+	10.  EJB and Servlet Enhancements:
+		-> WAS 7.0 supports EJB 3.0 and Servlet 2.5.
+		-> WAS 8.5 supports EJB 3.1, Servlet 3.0, JSF 2.0, and other modern Java EE 6 features.
+		
+72. How to install IM?
+	IBM Installation Manager (IM) is the primary tool used to install, update, and manage IBM software products like WebSphere Application Server.
+	1: Download the Installation Files
+		I download the appropriate version of IBM Installation Manager for the operating system (Linux/Windows) from the IBM Support Site. For Linux, it's usually a .tar.gz, and for Windows, it's an .exe.
+	2: Extract the Package (Linux only)
+		tar -xvzf agent.installer.linux.gtk.x86_64_*.tar.gz
+		cd IM_Installer
+	3: Run the Installer
+		./instalc -c  for command line
+		./install for gui
+	4: Choose Installation Directory
+		Linux: /opt/IBM/InstallationManager
+		This directory will contain the imcl command-line tool and GUI.
+	
+		
+
+			
+
+
+
+
+
+	
+
+	
+
+	
+	

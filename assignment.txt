@@ -1,0 +1,101 @@
+1.How to create cell profile using gui?
+
+Steps to Create a Cell Profile Using GUI (PMT):
+Launch the Profile Management Tool (PMT):
+
+Navigate to the bin directory of your WebSphere installation:
+
+<WAS_HOME>/bin/ProfileManagement/pmt.sh (Linux/Unix)
+<WAS_HOME>\bin\ProfileManagement\pmt.bat (Windows)
+
+Start the Profile Creation Wizard:
+
+Click on "Create" to start the profile creation wizard.
+
+Select Profile Type:
+
+Choose "Cell Profile".
+
+This option will create a Deployment Manager profile and an application server profile, federated into a cell.
+
+Configure Deployment Manager:
+
+Provide:
+
+Profile name (e.g., Dmgr01)
+
+Path to store the profile
+
+
+Configure Federated Application Server:
+
+Provide:
+
+Node name (e.g., AppSrv01)
+
+Server name
+
+Profile path for the federated application server
+
+
+Click "Create" to start the profile creation process
+
+Wait for Completion:
+
+The tool will create both the Dmgr and the Application Server profiles and federate them into one cell.
+
+Start Servers (Optional):
+
+After creation, you can start the Deployment Manager and the federated application server.
+
+
+2. Delete server.xml (AppSrv01/config/cells/cell-name/nodes/node-name/servers/server-name) and startserver ?
+
+3. add some wrong entries in server.xml and startserver ?
+ans: 
+Issue : i am trying to start server but am not able to start server.
+error: 
+	file:///F:/WAS_ND_7.0/profiles/AppSrv01/config/cells/dmgrcell01/nodes/DESKTOP-LL81H7CNode01/servers/server1/server.xml:2:
+           Content is not allowed in prolog., resulting from:
+           org.xml.sax.SAXParseException: Content is not allowed in prolog.
+		   
+troubleshoot: 
+		1. BOM (Byte Order Mark) issue: 
+	If the XML file was edited in a text editor like Notepad or Notepad++, it may have accidentally inserted a hidden BOM character at the beginning.
+
+	Fix: Open server.xml in a proper XML/text editor like Notepad++:
+		Go to Encoding → Encode in UTF-8 without BOM
+		Save the file.
+	2. Unintended characters or whitespace before <server> tag
+	3. Corrupted file
+
+ 
+4. Create port conflict, create two AppSrv profiles with same ports and start server ?
+Ans:
+	in command prompt both the appsrv applications are started. but admin console not opened. will get connection refused error.
+
+5. update the port above 65535 and start a server ?
+ans:
+	server is started in command prompt. but admin console unable to access.
+
+6. Deploy PlantsByWebSphere with different application name (PlantsByWebSphere1)?
+ans: 
+	application was deployed sucessfully. 
+
+7. Deploy same application again, see the error message ?
+ans:
+	ErrorApplication already exists in the configuration repository.
+	
+8. Check in what scenarios, we will get 500 internal server error?
+ans:
+	Whenever we missed the configuration filles in profile .we will get 500 internal error.
+	
+9. add some wrong entries in httpd.conf file and start server ?
+ans:
+	c:\Program Files (x86)\IBM\HTTPServer\bin>apache.exe -k start
+Syntax error on line 1 of C:/Program Files (x86)/IBM/HTTPServer/conf/httpd.conf:
+Invalid command '*#', perhaps misspelled or defined by a module not included in the server configuration
+
+10. Delete httpd.conf file and start server?
+ans:
+	httpd.exe: Could not open configuration file C:/Program Files (x86)/IBM/HTTPServer/conf/httpd.conf: The system cannot find the file specified. 

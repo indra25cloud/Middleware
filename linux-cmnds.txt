@@ -1,0 +1,28 @@
+Linux Commands
+
+1. find the files 
+find / -type f -name "filename"
+2. find directories
+find / -type d -name "directory-name"
+
+find string in file?
+grep "stringname" "filename"
+
+find top2 and bottom 2 lines of particular string?
+grep -i -A 2 _B 2 "wc_adminhost" serverindex.xml
+
+
+ 
+
+
+4.6yrs
+--------
+capgemini 5th floor
+cts
+mindtree - global villeage 
+
+
+
+
+
+

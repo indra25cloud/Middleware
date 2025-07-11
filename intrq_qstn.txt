@@ -1,0 +1,153 @@
+1. What is an application and types of applications
+2. What is an application server
+3. What are the different versions of WAS
+4. What are different types of packages
+5. What are the pre-req to check before installing WAS
+6. In how many ways we can install WAS
+7. How many containers are there in AppServers and what's the role of each container
+8. What is a profile.
+9. What are different types of profiles available in WebSphere 7.0 and 8.5
+10. How to create a profile by using GUI mode
+11. What is the command to create a profile
+12. What is the command to list the profiles
+13. What is the command to delete a profile
+14. which xml file maintains all profiles information and where it located
+15. Which file maintains all ports information
+16. What is meant by federation
+17. What is the command to federate a node
+18. What is the default dmgr SOAP connector port number
+19. Is there any impact to the appservers if dmgr is down ?
+20. Is there any impact to the appservers if nodeagent is down
+21. What is the command to start a nodeagent and stop nodeagent
+22. What is unavailable status indicates
+23. What is the use of Dmgr profile
+24. What is the use of Application Server profile
+25. What is the use of custom profile
+26. What is the command to remove a node from dmgr
+27. What is the command to synchronize a node
+28. What must be the status of nodeagent while synchronizing using command line
+29. What is the difference between partial sync and full sync
+30. What is the command to start Deployment Manager
+31. What is the command to take a backup without stopping the servers
+34. What is a jar file
+35. What is the jar file required, to configure WAS with Oracle
+36. If a jar file is not properly configured, what is the error, we will get at the time of test connection
+37. Explain how to configure WAS with Oracle using Admin Console
+38. What is a JDBC Provider
+39. What is a DataSource
+40. What is the difference between Connection pool DataSource and XA DataSource
+41. What are the XML files that are updated while configuring DataSoure
+42. What is a connection pool
+43. What are Connection pool Properties
+44. What is a reap time
+45. What's the reason of stale connection exception
+46. I am trying to connect WAS to DB, but its not connecting. How to troubleshoot that issue
+47. What's the use of JNDI (java naming directory interface)
+48. What is a context root
+49. Explain how to deploy an application using admin console
+50. In which location, application will be deployed by default
+51. What is the difference you noticed while deploying .war file and .ear file
+52. What is the log file that is updated at the time of deploying an application
+53. What is the wsadmin command to deploy an application
+54. What are different wsadmin objects and what's the use of each object
+55. What is the command to start and stop a server using wsadmin objects
+56. I am trying to deploy an application, but its failed. How to troubleshoot this issue
+57. While accessing an application, I am getting an error, webgroup virtualhost has not been defined. How to troubleshoot this issue
+58. What is the command to generate plugin-cfg.xml file and in which location plugin-cfg.xml file will be generated
+59. What is meant by plugin propagation
+60. How to integrate IHS, Plugins and WebSphere
+61. What is the purpose of plugins
+62. What info, does the plugin-cfg.xml file maintains
+63. In what scenarios, we need to generate plugin-cfg.xml file
+64. After deployment, if we forget to generate and propagate the plugin-cfg.xml file, what's the error we will get while accessing application.
+65. How to take application backup
+66. What is a cluster and different types of clusters and explain the differences
+67. How to configure Horizontal Cluster in WebSphere
+68. How to stop the requests to particular cluster member
+69. What is the default load balancing algorithm
+70. What is session affinity
+71. What are the differences between WAS 7.0 and WAS 8.5
+72. How to install IM
+73. What is the imcl command to install WAS 8.5
+74. What is the imcl command to install IHS
+75. What is the imcl command to install Plugins
+76. What is the imcl command to install FixPack
+77. What is the purpose of global security and in how many ways we can configure global security
+78. How to configure security using LDAP
+79. How to disable global security
+80. What is the xml file, that will update while configuring global security
+81. What is heap memory and explain the partitions and importance of each partition
+82. What is garbage collector
+83. How to enable garbage collector log 
+84. How to increase heap memory in WebSphere
+88. What is a thread dump
+89. What is a heap dump
+90. What are the differences between thread dump and a heap dump
+91. What is the command to generate a thread dump *****
+92. What is the command to generate a heap dump *****
+93. What is the file name of a heap dump and where it is generated
+94. What is the file name of a thread dump and where it is generated
+95. In what scenarios, you will generate a thread dump
+95. In what scenarios, you will generate a heap dump
+96. What is the root cause of OOM error / outOfMemoryError *****
+97. What is a memory leak
+98. Is it possible to generate both thread dumps and heapdumps by using kill -3 pid
+99. What is the difference between kill -3 pid and kill -9 pid
+100. What is the command to find the files which modified older than 15 days and delete that files
+101. How to enable TLS protocol
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+

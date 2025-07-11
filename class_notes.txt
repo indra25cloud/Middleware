@@ -1,0 +1,1527 @@
+Dekrinssoft Technologies
+Off Admin 9538082044
+
+WAS 8.5, Linux
+https://drive.google.com/drive/folders/1h4ApVMWog3rq3haikpB8r0BrgGJI3foJ?usp=sharing
+
+
+Apr Reg 2025
+
+
+assignment
+----------
+1. Create Cell profile
+2. Delete server.xml (AppSrv01/config/cells/cell-name/nodes/node-name/servers/server-name) and startserver
+3. add some wrong entries in server.xml and startserver
+4. Create port conflict, create two AppSrv profiles with same ports and start server
+5. update the port above 65535 and start a server
+6. Deploy PlantsByWebSphere with different application name (PlantsByWebSphere1)
+7. Deploy same application again, see the error message
+8. Check in what scenarios, we will get 500 internal server error
+9. add some wrong entries in httpd.conf file and start server
+10. Delete httpd.conf file and start server
+
+
+
+
+
+WAS 7.0 Installation
+profiles
+federation
+backup
+syncnode
+
+
+package
+WAS
+IHS
+Plugins
+Java
+
+
+I am trying to start a server, but server is not starting. How to troubleshoot this issue.
+
+=>If any files are missing, file not found exception
+=>any directories got corrupted
+=>If the syntax is wrong
+=>If nodeagent is not started
+=>You are executing the command in wrong path
+=>If there are no permissions
+=>If there is no sufficient disk space
+=>If no sufficient heap memory
+=>Not properly synchronized
+=>If any jar files are missing, we will get class not found exceptions
+=>if there is not sufficient meta space
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+drive link
+https://drive.google.com/drive/folders/1moVVomxYxML-o26Qo0WcwAEoM1OxGTzW?usp=drive_link
+
+
+
+
+ Role of a waiter / server 
+1. Taking orders
+2. serving food 
+3. Serving food - time
+4. Serving correct order
+
+
+Who is ordering --- Client /customer
+who is taking your order - waiter /server
+
+Application
+------------
+An application is a collection of resources.
+It contains
+servlets, jsp, ejb, xml files, .properties, jar, images, java script, build together to fulfil business requirements
+
+ex: Walmart.com, icicibank.com,amazon.in, onlinesbi.com,flipkart.com
+
+
+Application Server
+--------------------
+An application server receives requests from end users, searches for the appropriate resources, executes the resources, and generates a response back to the end users. In appl servers like jboss, weblogic, websphere, we can deploy both .war file and .ear file
+
+WebSphere Application Server - IBM
+Jboss Application Server     - Redhat
+WebLogic Application Server  - Oracle
+
+
+Types of applications
+-----------------------
+1. Web Application : It contains servlets and jsp as the major components along with html files, images, xml files, java script, java classes and .properties. If it is a web application developers will build it as a .war file (web archive)
+bookstore.war, medicalstore.war, appname.war 
+2. Enterprise Application:
+It contains servlets, jsp and EJBs like session beans, entity beans and message driven beans along with html files, images, xml files, java script, java classes and .properties. If an application have ejb components, developers will build it as a .ear file (enterprise archive)
+
+Types of Installation
+-----------------------
+We can install WAS in 3 ways
+	1. GUI mode
+	2. imcl (from WAS 8.0)Installation Manager Command Line
+        3. Silent Mode
+
+
+
+
+
+
+
+
+System/box/host/machine/node
+pre-req
+--------
+1. Free Disk space 5 GB  df -h
+2. Free memory  2 GB     free -m
+3. Cpu 850 MHZ           lscpu      
+4. permissions           ls -l
+5. compatibility         arch  or uname -m
+ 
+
+
+WebSphere Application Server - IBM
+-----------------------------------
+
+WebSphere Application Server 7.0
+WebSphere Application Server 8.0
+WebSphere Application Server 8.5
+WebSphere Application Server 8.5.5
+WebSphere Application Server 9.0
+
+Types of Packages
+-----------------
+1. WebSphere Application Server  - Express Package
+2. WebSphere Application Server  - Base Package 
+3. WebSphere Application Server  - Network Deployment Package
+
+In Websphere Apllication Server, we can deploy or install both web applications and enterprise applications
+In Weblogic Apllication Server, we can deploy or install both web applications and enterprise applications
+In Jboss Apllication Server, we can deploy or install both web applications and enterprise applications
+In Apache Tomcat, we can deploy or install only web applications
+
+
+           war          ear
+WAS        yes		yes
+Weblogic   yes          yes
+jboss      yes          yes
+tomcat     yes          NO
+
+
+In application servers there are two containers
+ 	1. Web Containner
+	2. Ejb Container
+In apache tomcat,we have only one container
+	1. Web Contaner
+
+Web container will execute web resources like servlets and jsp
+Ejb container will execute ejb resources like session beans, entity beans and message driven beans
+
+
+installers
+----------
+Generic installers
+OS specific Installer
+win -- download windows compa setup
+linux -- download linux compat setup
+
+
+IN WAS 7.0
+NO Generic Installer
+If we are using windows -- download windows comapatable setup
+If you are using LINUX OS -- download Linux comparable setup
+If you are usnig mac      -- download Mac compatable setup
+
+
+In Windows by default WAS will be installed
+C:\Program Files (x86)\IBM\WebSphere\AppServer
+
+LINUX/HP-UNIX/Solaris
+/opt/IBM/WebSphere/AppServer
+
+AIX
+/usrIBM/WebSphere/AppServer
+
+
+GUI Mode
+
+WAS---install 
+
+
+
+Installed in
+
+
+D:/IBM/WebSphere/AppServer
+			bin -- profilemanagement--pmt.bat
+			logs
+			dev
+			etc		WAS_ROOT
+			java
+			lib
+			properties
+			profileTemplates
+			uninstall
+(newly it will create)  profiles
+                            |
+                            AppSrv01
+                                |
+                                bin
+                                logs		<profile_home>
+				installedapps
+				wstemp
+				config
+				temp
+
+default admin console non secure port number 9060
+admin console secure port number       9043
+
+what is  a profile
+A profile is an environment, its contains AdminConsole, cell, node, servers and supporting configuration files which helps to do administration activities on servers and applications
+What are different types of profiles
+There are 7 types of profiles in WAS 7.0
+	1. Deployment Manager Profile              dngr
+	2. Application Server Profile              default template
+	3. Custom Profile or managed profile       managed
+	4. Cell Profile                            cell
+	5. Job Manager Profile                     management
+	6. Admin Agent Profile                     management
+	7. Secure Proxy profile                    secureproxy
+From WAS 8.0 onwards a new profile is introduced
+	1. Deployment Manager Profile
+	2. Application Server Profile
+	3. Custom Profile or managed profile
+	4. Cell Profile
+	5. Job Manager Profile
+	6. Admin Agent Profile
+	7. Secure Proxy profile
+	8. Liberty Profile
+
+
+serverindex.xml  - WAS
+config.xml      - WebLogic
+server.xml      - Tomcat
+httpd.conf      - Apache HTTP Server
+httpd.conf      - IBM HTTP Server
+
+
+serverindex.xml  - WAS
+
+<profile_HOME>/config/cells/<cell_name>/nodes/<node_name>
+
+wc_adminhost
+
+
+manageprofiles.bat -create -profileName AppSrv03 -profilePath "D:\IBM_ND_7.0\WebSphere\AppServer\profiles\AppSrv03" -templatePath "D:\IBM_ND_7.0\WebSphere\AppServer\profileTemplates\default" -nodeName appnode03 -hostName localhost -cellName mycell03
+
+At the time of profile creation, it will update profileRegistry.xml in <WAS_ROOT>/properties directory
+
+<profile_home>/config/cells/cellname/nodes/nodename
+serverindex.xml
+wc_defaulthost 9080 non secure
+               9443 secure
+	
+				
+D:\IBM_ND_7.0\WebSphere\AppServer>
+
+manageprofiles.bat -create -profileName Dmgr02 -profilePath "D:\IBM_ND_7.0\WebSphere\AppServer\profiles\Dmgr02" -templatePath "D:\IBM_ND_7.0\WebSphere\AppServer\profileTemplates\dmgr" -nodeName dmgrnode02 -hostName localhost -cellName dmgrcell02
+
+
+At the time of profile creation one log file will update that the profile creation is successful or not
+log file name is profilename_create.log
+<WAS_ROOT>/logs/manageprofiles
+			profilename_create.log
+
+At the time of starting a server startServer.log will be updated
+Its located in <profile_home>/logs/<server-name>
+                                   startServer.log
+
+
+log.txt
+profilename_create.log
+startServer.log
+
+
+go to profile_home/bin
+
+ex: AppSrv01/bin>addNode.sh hostname of dmgr SOAP connector port number of dmgr
+
+addNode.sh 192.157.34.234 8879
+
+to start a nodeagent
+ex  AppSrv01/bin>startNode.sh
+to stop nodeagent
+AppSrv01/bin>stopNode.sh
+
+
+Custom Profile Creation using command line
+--------------------------------------------
+manageprofiles.bat -create -profileName Custom01 -profilePath "D:\IBM_ND_7.0\WebSphere\AppServer\profiles\Custom01" -templatePath "D:\IBM_ND_7.0\WebSphere\AppServer\profileTemplates\managed" -nodeName customnode01 -hostName localhost -cellName mycustomcell01
+
+
+
+
+To start a server using command line or using admin console
+nodeagent must be running
+to stop a server using admin console
+nodeagent must be running
+to stop a server using cmd line, nodeagent either running or stopped, we can stop a server
+
+
+Federation
+----------
+Its a process of adding a node either from AppSrv Profile of Custom Profile to the dmgr cell
+We can add a node by using a command
+addNode.sh <host name of the dmgr> SOAP Connector port number of dmgr
+
+At the time of federation, a process called nodeagent will be created to communicate between Dmgr and federated profile servers and applications.
+
+Once nodes of application server profile and custom profile is federated to the dmgr, we can create multiple jvms under that nodes and we can do administration activities through the dmgr admin console
+
+Cell 
+----
+A cell a top most component in a profile. Cell maintains master repository or master configuration. What ever the changes we do, initially the changes are updated in the master configuration, later that changes are synchronized with the node.
+Node
+----
+A node is required to create jvms or a node holds jvms.
+With out a valid node we can't create jvms
+
+
+BAU, work arounds
+
+
+Synchronization
+---------------
+The purpose of synchronization is to update the changes from cell to node.
+We can do it 2 ways
+	1. Command Line
+	2. Admin Console
+
+to synchronize a node using command line, first stop the nodeagent, then execute a command
+syncNode.sh <host name of dmgr> <SOAP Connector port number of dmgr>
+
+
+diff b/w sync (partial sync) and full sync
+------------------------------------------
+In Sync it transfers only the changed or updated configuration files from DMGR to the Node. It's Faster, because it skips unchanged files. We use it for regular operations when only a few files have been updated.
+
+In full sync, transfers all configuration files, regardless of whether they have changed or not. It's slower, as it copies everything. We use it when Node is out of sync due to corruption or manual edits and ensuring a clean and complete sync.
+
+
+ports range
+
+0-2^16 -1
+0-65535
+
+command to take a backup with out stopping the servers
+----------------------------------------------------
+go to <WAS_ROOT>/bin>backupConfig.sh -nostop
+
+
+to take a particular profile backup
+<WAS_ROOT>/bin>backupConfig.sh -profileName <profile_name> -nostop
+
+backupConfig.bat D:\Appsrv01bkp.zip -profileName AppSrv01 -nostop
+
+
+http://localhost:8080/apex
+
+Connection URL for oracle
+jdbc:oracle:thin:@localhost:1521:XE
+
+
+
+
+
+Steps to configure WAS with Oracle
+-----------------------------------
+1. Create a JDBC provide
+2. Create a data source
+3. While creating a datasource, provide datasource name, JNDI name and connection url
+4. Provide Database server username and pwd under j2c authentication
+5. save the changes and test connection
+6. if DB is configured successfully we will get a message teat connection was successful 
+
+
+Troubleshooting DB Connectivity issues
+--------------------------------------
+1. Check the error messages in the log file, if the error messages are with netExceptions, network adapter exceptions, listerner refused 
+  =>Now check the connectivity between jboss host and db host and also is the DB Server is running or not and port is opened or not
+  => first I will execute ping remote ip to check the connectivity between two boxes, then execute telnet <remote host name /ip> port number of db server
+ => if it's not connected I will tell DB team to check the status of DB Server and to open the port.
+2. If we get java.sql.SQLException: invalid username/password; logon denied
+  => Now check the user name and password given in the configuration
+3. If we get an missing/unavailable dependencies jboss.driver-demander or class not found exceptions, check do we have proper jar files and proper driver classes in the jar file. 
+4. Verify the connection url and database name
+5. This is the way, I troubleshoot DB connectivity issues
+
+
+jar
+---
+A jar is a collection of classes, at the time of configuring WAS with Oracle we need ojdbc8.jar. It contains driver classes, which helps to create connection objects
+
+If jar is not properly configured we will get java.lang.classNotFoundException
+
+
+1. Issue	  			
+unable to connect to Oracle DB
+
+Description : 
+getting an error while configuring WAS with Oracle.
+Below is the error message
+
+The test connection operation failed for data source AmazonDS on server server1 at node apnode02test with the following exception: java.lang.ClassNotFoundException: DSRA8000E: No jar or zip files found in f:\softwares/ojdbc6.jar. View JVM logs for further details.
+
+Solution
+--------
+As the error message is telling classNotFoundException, the respective classes are not available while connecting with the db.
+The path is looking at F:\softwares, in this location, its looking for ojdbc6.jar.
+But I have checked in the F:\softwares, ojdbc6.jar is not available.
+That is the reason its throwing an error.
+To troubleshoot this issues, either change the path to the proper location or copy the jar to F:\softwares
+
+
+JVM logs
+
+systemOut.log
+systemErr.log
+are called as jvm logs
+
+for each and aver jvm or each and every server, we can find its own JVM logs
+By default jvm logs are located in <profile_home>/logs/<servername>
+
+2. Issue	  			
+unable to connect to Oracle DB
+
+Description : 
+getting an error while configuring WAS with Oracle.
+Below is the error message
+
+
+The test connection operation failed for data source AmazonDS on server server1 at node apnode02test with the following exception: java.sql.SQLException: The Network Adapter could not establish the connectionDSRA0010E: SQL State = 61000, Error Code = 20. View JVM logs for further details.
+
+
+Solution
+--------
+As the error message is telling The Network Adapter could not establish, check did we give exact ipaddress and portnumber of the DB
+
+ping 192.20.134.23
+reply
+
+if I am getting replies
+
+was host and Db host
+
+telnet 192.20.134.23 1521
+connected
+
+
+
+Explain how to configure DS
+
+1
+delete server.xml
+and startserver
+
+2. Give wrong username/password
+3. wrong ip
+4. wrong url
+
+
+In Express and base packages, we can create only application Server profile. We don't have a concept of federation.
+It's difficult to manage multiple instances. If our requirement is to have 1 or 2 servers, we can use express or base packages. 
+In production environment, in huge infrastructures it's difficult to manage.
+So we prefer to go with Network Deployment Package
+We don't have clustering and single point of Administration in Express and base packages
+
+Express package is used in small to medium business applications
+Express package is lower cost when compare to Base Package
+1 JVM per Host is supported
+
+
+Base package is used in medium to large business applications
+Licensing cost is Higher than express package
+multiple jvms are allowed but multiple appSrv profiles, multiple admin consoles, difficult to  manage
+
+
+
+We can deploy one or more applications in appservers
+But each application must have a unique context root
+
+Context Root
+------------
+A context root is a unique to invoke or access the applications
+
+Connection Pool
+---------------
+It contains pre-defined connection objects. If we have a connection pool, after completion of transactions, connection objects are back to the pool. That connection objects can be reused for further incoming request.
+So that we will reduce the delay in the response.
+
+Connection Pool Properties
+--------------------------
+1. Minimum Connections: It tells the minimum number of connection objects to be maintained, even though its in idle state. By default 1 is the minimum connection
+2. Maximum Connection: It tells upto what extent a connection pool can grow. By default it's 10 connection objects
+3. Unused Timeout: It tells the time interval, how long connection objects can be idle, before being closed. By default its 1800 seconds
+4. Aged Timeout: It tells maximum time of a connection object with a request or life time of connection object with a request, By default its 0.
+5. Reap Time: it's the time interval which tells, when the pool maintenance thread has to run across the pool to scan unused connection objects and aged timeout connection objects. Once it identifies any connection objects are matching to the time intervals of unused timeout and aged time out, it will take an action on that connection objects. It will decide, connection objects to be in  the pool or to be discarded from the pool. By default its 180 seconds
+6. Connection Timeout: It tells maximum time a server can wait for a free connection object, before throwing an error (connectionwaittimeout exception), default is 180sec
+7. Purge Policy: its tells what to do with connection objects, when there is an error
+There are two purge policies
+	1. Entire Pool
+	2. Failing Connections Only
+
+
+Differences between non-XA datasource and XA Datasource (ATM)
+
+
+
+
+
+
+
+ATM
+with drawl  
+insert card
+enter pin
+with drawl
+enter amount 1000
+
+
+What is a WebServer
+
+
+default http server port number / WebServer port number/ IHS port number/ Apache HTTP Server number
+80
+
+Secure
+443
+
+
+
+
+
+apache.exe -k start
+80
+443
+
+process name	pid
+httpd           6578   ---80
+                       ---443
+
+(server1)
+java.exe        89698  --- 9060
+                           9080
+                           9043
+                           9443
+
+server2                    9060
+                           9080
+                           9043
+                           9443
+
+port conflicts
+
+netstat -nlp | grep portnumber
+
+
+
+starting order
+
+=>start DB (DB admin)
+=>start Dmgr
+=>start nodeagent
+=>start server1
+=>start IHS
+
+
+stopping order
+=========
+stop IHS
+stop server1
+stop nodeagent
+stop dmgr
+stop DB
+
+
+
+Dev, MRE, QA, stage, pre-prod/UAT, Prod 
+
+Application Deployment
+---------------------
+1. Admin Console
+2. wsadmin objects
+3. JACL/Jython scripts
+
+4. ANT
+5. Maven
+6. Jenkins
+7. Eclipse
+8. UCD (urban code deploy)
+9. Ansible
+
+
+
+Application size - 300 mb
+---------------------------
+servlets
+jsp
+ejbs
+html                     .ear
+.properties
+xml
+images
+java script
+
+
+D:\IBM_ND_7.0\WebSphere\AppServer\profiles\AppSrv01\installedApps\dmgrcell02\PlantsByWebSphere.ear
+         |
+D:\IBM_ND_7.0\WebSphere\AppServer\profiles\AppSrv01\installedApps\dmgrcell02\PlantsByWebSphere.ear 
+         |
+D:\IBM_ND_7.0\WebSphere\AppServer\profiles\AppSrv01   \installedapps
+
+
+By default application will be deployed in profile_home installedapps directory
+
+
+
+
+How to access application
+
+1. find the context root of the application
+(we can find in application.xml in the installedapps META-INF dir
+
+/PlantsByWebSphere
+
+2. find the virtual host name
+   default_host
+3. Find the port numbers of that server (default host)
+	wc_defaulthost        9080
+        wc_defaulthost_secure 9443
+
+
+xml
+1521
+system
+admin
+thin
+localhost
+
+
+XML --->server1---start
+
+server1-->log
+
+
+
+troubleshoot 404 errors
+-----------------------
+main reasons are
+Incorrect URL
+application is not active
+plugin-cfg.xml file is not updated after deployment
+not properly synchronized
+
+Cell profile
+
+Dmgr01
+AppSrv01
+
+
+Deployment Manager Profile:
+	It contains dmgrcell, admin console, dmgr process and supporting configuration files. Dmgr mainly helps to do administration activities on the federated profile servers and applications
+It becomes operational, only after federation of appsrv profile or custom to the dmgr cell
+
+
+Differences between Connection Pool Data Source and XA
+or
+Differences between non XA and XA Data Source
+
+
+Non - XA
+--------
+It supports single phase commit
+It supports local transactions
+It is used when there is a single database
+Transaction management is handled by the jdbc driver
+
+XA Datasource
+-------------
+It supports global transactions or distributed transactions
+It supports two phase commit
+It is used when there are multiple databases or multiple resources involved in a transaction like JMS and DB
+Transaction management is handled by Application servers Transaction manager
+
+
+WSAdmin objects
+--------------
+There are 5 wsadmin objects
+	1. AdminControl - start, stop, monitor servers
+        2. AdminConfig  - Create JDBC, datasources, jms and updating configurations
+        3. AdminApp     - Application deployment, uninstall, updating, application backup
+        4. AdminTask    - Create servers, clusters and security updates
+        5. Help         - It helps to check the options and usage of each object
+
+
+wsadmin command to deploy application
+
+AdminApp.install('/path/to/yourApp.ear', ['-appname', 'YourAppName', '-node', 'appnode01', '-server', 'server1'])
+AdminConfig.save()
+
+AdminApp.install('F:\softwares\sample_applications\PlantsByWebSphere.ear', ['-appname', 'plants', '-node', 'KrishnaWebNode01', '-server', 'server1'])
+
+AdminConfig.save()
+
+
+
+AdminControl.startServer('server2', 'KrishnaWebNode01')
+AdminControl.stopServer('server2', 'KrishnaWebNode01')
+AdminControl.startServer('nodeagent', 'appnode01')
+AdminControl.stopServer('nodeagent', 'appnode01')
+
+
+
+
+AdminTask.createApplicationServer('appnode01', ['-name', 'server4', '-templateName', 'default'])
+AdminConfig.save()
+
+
+AdminTask.createApplicationServer('KrishnaWebNode01', ['-name', 'server44', '-templateName', 'default'])
+
+
+
+
+jython wsadmin command to delete a server
+
+
+AdminTask.createApplicationServer('KrishnaWebNode01', '[-name server45 -templateName default -genUniquePorts true ]')
+
+
+Create 4 servers
+start 4 servers
+Deploy an application in 4 servers
+start that deployed application
+Create JDBC provide
+Create Datasource
+
+
+Download
+WinSCP - to copy files from one server/host to other server/host
+putty - to connect to Linux servers
+
+
+ free -H
+   27  free -m
+   28  df -h
+   29  du -h /tmp
+   30  du -h /opt
+   31  df -h
+   32  clear
+   33  netstat -antp | grep 9060
+   34  ps -ef | grep server1
+
+vi editor
+
+i - insert
+
+esc
+:w --- save
+:wq -- save and quit
+:q! -- quit without save
+
+
+From WAS 8.0 onwards, It's mandatory to install Installation Manager before installing, WAS, IHS, Plugins, Fix Packs
+
+IM can be installed
+	1. GUI Mode
+	2. Console Mode
+	3. imcl commands
+	4. Silent mode
+
+
+
+To uninstall IM
+go to
+cd /var/ibm/InstallationManager/uninstall
+./uninstallc
+
+
+imcl command to install Installation Manager
+--------------------------------------------
+=>Go to IM Extracted tools directory
+=>Execute a command
+./imcl install com.ibm.cic.agent -repositories "/root/Desktop/softwares/IM/repository.config" -installationDirectory "/opt/IBM/InstallationManager/eclipse" -accessRights admin -acceptLicense -showProgress
+
+
+WebSphere 8.5 installation
+--------------------------
+We can install WAS 8.5 in 3 methods
+	1. GUI Mode
+	2. imcl command
+	3. Silent Mode
+
+
+
+1. VMWorkstation 9 (license key)
+2. RHEL 6.0
+ virtualization is not enabled, vt-x not enabled
+hyper-v
+
+bios 
+3. Win - Linux
+putty - iptables -F
+        systemctl network restart
+WinSCP - Linux
+IM       IM
+         extracted
+         IM - GUI
+            - console
+            - imcl
+WAS     - unable to copy
+
+
+
+WebSphere 8.5 installation
+--------------------------
+We can install WAS 8.5 in 3 methods
+	1. GUI Mode IBMIM
+	2. imcl command
+	3. Silent Mode
+
+Install WAS GUI mode
+go to your IM installed location
+
+/opt/IBM/InstallationManager/eclipse
+
+WAS 8.5  repository.config
+plugins  repository.config
+IHS      repository.config
+
+WAS_ND_V8.5_1_OF_3
+WAS_ND_V8.5_2_OF_3
+WAS_ND_V8.5_3_OF_3
+
+extract all 3 zip bundles
+
+WAS_ND_V8.5_1_OF_3
+ disk1  (dir)
+ lafiles
+ repository.config
+ responsefiles
+ readme
+disk2 (dir)
+disk3 (dir)
+
+WAS_ND_V8.5_2_OF_3
+ disk2 (dir)
+
+WAS_ND_V8.5_3_OF_3
+ disk3 (dir)
+
+
+fixpack -- repository.config
+
+
+
+
+/   -home
+     etc
+     lib
+     bin
+     opt --IBM--InstallationManager--eclipse--tools --imcl
+
+
+Process
+
+
+./imcl install com.ibm.websphere.ND.v85_8.5.0.20120501_1108 -repositories "/root/Desktop/softwares/was8.5/1_of_3/repository.config" -installationDirectory "/opt/IBM/WebSphere/AppServer" -acceptLicense -showProgress
+
+
+
+ ./imcl listAvailablePackages -repositories /root/Desktop/softwares/was8.5/1_of_3/repository.config 
+
+
+
+startServer.sh server1-----
+                   pid 2563
+netstat -antp | grep 2563
+                      
+BAU
+work arounds
+
+
+
+
+
+
+
+Global Security
+---------------
+It is to secure WAS environment, only authorized users can access admin console and perform administration activities.
+We can configure global security in 4 ways
+	1. LocalOS user registry
+	2. Custom user registry
+        3. LDAP user registry
+        4. Federated repository
+1. Steps to configure global security using Local OS registry
+--------------------------------------------------------------
+1. Create a user in your OS, assign passwd to the user
+2. Login to admin console, expand security and select global security
+3. Select security configuration wizard and select Local OS user registry
+4. Provide the username and password
+5. Confirm the password under LTPA authentication mechanism
+6. Enable administrative security check box
+7. Under available realm definitions, select Local OS and restart the server
+8. Now we can access adminconsole using 
+   https protocol
+   https://ip:9043/ibm/console
+
+
+
+
+
+windows
+license ----updates
+no - Microsoft 
+perfectly
+
+updates -- bug fixes, features 
+windows 11 <-----update
+WebSphere  <--- fixpack
+WebLogic   <--- patch
+jboss      <--- patch
+
+BAU
+workarounds
+
+incident -- sudden -  OOM restarted JVM
+change   -- scheduled 
+problem  -- RCA
+
+ch2346810
+IN34623
+
+profile backup, application backup, was_root backup
+storage and backup team
+
+
+/opt/IBM/InstallationManager/eclipse/tools>
+./imcl install com.ibm.cic.agent -repositories /path/to/repository.config -acceptLicense
+
+/opt/IBM/InstallationManager/eclipse/tools>./imcl -version
+
+agent.installer.linux.gtk.x86_1.9.0.20190715_0328.zip
+
+
+Steps to apply fixpack
+----------------------
+1. Check the current version of WAS
+2. Take backup of profiles, applications and WAS_ROOT backup
+3. check the IM version, if its required update IM
+ (./imcl install com.ibm.cic.agent -repositories /root/Desktop/agentinstall/extract1.9/repository.config -preferences offering.service.repositories.areUsed=false -acceptLicense -showprogress)
+4. Download fixpack, we will get 3 zip bunles, extract all the 3 zip bundles
+5. Find the fixpack package ID by using a command
+./imcl listAvailablePackages -repositories /root/Desktop/softwares/fixpack/repository.config
+6. Install fixpack by using imcl command
+./imcl install com.ibm.websphere.ND.v85_8.5.5024.20230628_1659 -repositories /root/Desktop/softwares/fixpack/repository.config -installationDirectory /opt/IBM/WebSphere/AppServer -acceptLicense -showProgress
+7. Once fixpack is installed successfully we can find the updated version number in 4 digit
+8. Execute a command ./versionInfo.sh
+9. StartServers and applications
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

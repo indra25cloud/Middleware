@@ -1,0 +1,167 @@
+Troubleshooting with errors
+
+1. Issue
+unable to connect database server
+
+Description:
+	Getting an error while configuring was with oracle . below is the error message.
+
+The test connection operation failed for data source DSCITI on server server1 at node DESKTOP-LL81H7CNode02 with the following exception: javax.management.JMRuntimeException: ADMN0034E: The service is unable to obtain a valid administrative client to connect process "server1" from process "nodeagent", because of exception: com.ibm.websphere.management.exception.ConnectorException: java.lang.ClassNotFoundException: oracle.net.ns.NetException. View JVM logs for further details.
+
+Solution :
+	As the error message telling is ClassNotFoundException. the respective classes are not available while connecting with the db.the path is looking at f:/ in this location it is looking for ojdbc6.bar.but i have checked in this f:/ ojdbc6.jar is not available.that is the reason its throwing an error.
+	to trouble shoot this issue , either change the path of proper location or copy  the jar file in the f:/ location.
+
+2.Issue
+
+unable to connect database server
+
+Description:
+	Getting an error while configuring was with oracle . below is the error message.
+	
+	The test connection operation failed for data source DSCITI on server server1 at node appnode04 with the following exception: java.sql.SQLException: The Network Adapter could not establish the connection. DSRA0010E: SQL State = 61000, Error Code = 20. View JVM logs for further details.
+
+Solution:
+	As the error message is telling The Network Adapter could not establish the connection. means that WebSphere Application Server (WAS) is trying to connect to a database (associated with the data source DSCITI), but it is unable to do so because the network connection to the database cannot be established.
+To troubleshoot this isuue 
+	Ensure that the hostname/IP and port number defined in the data source configuration are correct.
+	Try pinging the database host from the WAS server
+	ping <db_host>
+	telnet <db_host> <port>
+	If telnet fails, the WAS server cannot reach the database.
+	Make sure the database server is up and running or not.
+	Check the JDBC provider and URL for correctness.
+	Check if a firewall or network policy (on either WAS server or DB server) is blocking the connection.
+	Check the listener status.
+
+3. Issue
+
+unable to connect database server
+
+Description
+	Getting an error while configuring was with oracle . below is the error message.
+
+	The test connection operation failed for data source DSCITI on server server1 at node appnode04 with the following exception: java.sql.SQLException: ORA-01017: invalid username/password; logon denied DSRA0010E: SQL State = 72000, Error Code = 1,017. View JVM logs for further details.
+
+Solution:
+	
+	As the error message is telling invalid username/password; logon denied .This error is thrown by Oracle Database when the credentials used to log in (username/password) are incorrect. the reasons are 	
+	Invalid username or password (typos, case sensitivity).
+	Account is locked or expired.
+	Wrong authentication alias is used in the data source configuration.
+	Oracle version enforces case-sensitive passwords.
+To troubleshoot this isuue 	
+	1.Login manually to the Oracle DB using the same credentials
+	sqlplus username/password@//hostname:port/service_name
+	2.If the login fails, fix the credentials
+	3.If the login succeeds, proceed to update WebSphere settings(change the username and password in in j2c authentication)
+	
+	
+4. Issue:
+
+unable to connect database server
+
+Description
+	Getting an error while configuring was with oracle . below is the error message.
+	
+	The test connection operation failed for data source DSCITI on server server1 at node appnode04 with the following exception: java.sql.SQLException: ORA-01017: invalid username/password; logon denied DSRA0010E: SQL State = 72000, Error Code = 1,017. View JVM logs for further details.
+	
+Solution:
+	if you miss to mapping username and password of j2c alias name we will get same error. like invalid username and password.
+	
+	
+5. Issue:
+
+unable to connect database server
+
+Description:
+	Getting an error while configuring was with oracle . below is the error message.
+
+	ErrorThe value for the field, URL, is invalid. Formats such as "jdbc:oracle:thin:@localhost:1521:sample" for a thin driver or "jdbc:oracle:oci8:@sample" for a thick driver are valid.
+	
+Solution:
+	As the error message is telling The value for the field, URL, is invalid. means that WebSphere rejected the JDBC URL format you've entered for the Oracle data source. It must follow specific patterns depending on the driver you're using.
+	
+	You use an incorrect format (@// or missing service name/SID).
+	You include extra slashes, colons, or have an incorrect structure
+	To troubleshoot this isuue 
+	1.oracle thin driver format (sid based)
+		jdbc:oracle:thin:@<hostname>:<port>:<SID> 
+	2. For Oracle Thin Driver (Service Name-based)	
+		jdbc:oracle:thin:@//<hostname>:<port>/<service_name>
+goto WebSphere Admin Console > Resources > JDBC > Data sources > DSCITI 
+Under Configuration, find the JDBC URL field . here you can mention proper url name.
+
+
+6. Issue:
+
+unable to connect database server
+
+Description:
+	Getting an error while configuring was with oracle . below is the error message.
+
+	The test connection operation failed for data source DSCITI on server server1 at node appnode04 with the following exception: java.sql.SQLException: Listener refused the connection with the following error: ORA-12505, TNS:listener does not currently know of SID given in connect descriptor DSRA0010E: SQL State = 66000, Error Code = 12,505. View JVM logs for further details.
+ 
+ Solution: 
+	As the eror message is telling Listener refused the connection. means that WebSphere is trying to connect to the Oracle database using an SID, but the Oracle listener does not recognize that SID.
+To troubleshoot this isuue
+	1.Use the Correct JDBC URL Format.
+	2.check the listener status and check db is running or not.
+	
+	Issue: 
+	The test connection operation failed for data source DSCII on server server1 at node customnode01 with the following exception: java.sql.SQLException: The Network Adapter could not establish the connection DSRA0010E: SQL State = 61000, Error Code = 20. View JVM logs for further details.
+	
+7. Issue:
+	If one of the file is corrupted or deleted in profile-home directory. ow to resolve the isuue.
+	
+Description:
+	getting an error will starting the server. below is the error message.
+	java.sql.exception system file not found.
+	
+Solution:
+	To troubleshoot this issue i can restore that respectivefile from the backup file.
+	error message is stored in startserver.txt. it is located in profile-home/logs/server1/
+	
+
+8. Issue
+	i am trying to start server but am not able to start server.
+
+These are some possible scenarios to troubleshoot:
+	1. if any files are missing
+	2. any directories got corrupted
+	3. if syntax is wrong
+	4. if nodeagentis not started
+	5. you are executing the command in wrong path
+	6. if there are no permissions.
+	7. if there is no sufficient disk space.
+	8. if no sufficient heap memory
+	9. not properly synchronized.
+	10. if any jar files are missing.
+	11. if there is not sufficient meta space.
+	
+9. Heap memory errors:
+	If Heap size increased to very high more than system RAM at the time you will get below error:	
+		[6/4/25 1:27:44:572 PDT] 00000001 ContainerHelp E   WSVR0102E: An error occurred stopping, null [class com.ibm.ws.runtime.component.WLCImpl]
+		java.lang.NullPointerException
+
+	If Heap size decreased to very low at the time you will get below error:
+		These failures trigger NPEs or "malfunction" messages, because some required components are not created due to memory constraints.
+			
+
+10. while starting the server i am getting below error:
+
+	[6/4/25 9:01:40:037 PDT] 0000006c TilesRequestP I org.apache.struts.tiles.TilesRequestProcessor initDefinitionsMapping Tiles definition factory found for request processor ''.
+[6/4/25 9:01:40:906 PDT] 0000006c ServletWrappe I com.ibm.ws.webcontainer.servlet.ServletWrapper init SRVE0242I: [isclite] [/ibm/console] [/unsecure/invalidSession.jsp]: Initialization successful.
+[6/4/25 9:01:41:000 PDT] 0000006e ServletWrappe I com.ibm.ws.webcontainer.servlet.ServletWrapper init SRVE0242I: [isclite] [/ibm/console] [/secure/isclite/tiles/banner.jsp]: Initialization successful.
+[6/4/25 9:01:42:081 PDT] 00000070 WebContainer  E com.ibm.ws.webcontainer.internal.WebContainer handleRequest SRVE0255E: A WebGroup/Virtual Host to handle /favicon.ico has not been defined.
+[6/4/25 9:01:45:067 PDT] 00000070 WebContainer  E com.ibm.ws.webcontainer.internal.WebContainer handleRequest SRVE0255E: A WebGroup/Virtual Host to handle /favicon.ico has not been defined.
+[6/4/25 9:01:45:146 PDT] 00000028 prefs         W java.util.prefs.FileSystemPreferences syncWorld Couldn't flush user prefs: java.util.prefs.BackingStoreException: Couldn't get file lock.
+	
+	
+solution:
+	goto server.xml 
+		remove the initial heap memory and max heap memory. 
+		
+10.  am unable to access the application? How will you resolve? 
+Ans: There may be several reasons like 404, 500 and page not found.
+
