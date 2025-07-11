@@ -1,0 +1,42 @@
+Tell me about your self ?
+Hi, i am Indra.
+I have 4.5yrs of experience in middleware administration.
+I am currently working in capgemeni.and previously worked in CTS and mindtree.
+I have experience in building the environment like installing jboss, worked with different profiles like default ,ha,full and full-ha. And creating multiple instances in standalone and domain mode, creating server group and servers.
+I am in to deploying applications like .War files and .Ear files by using management console and jboss-cli .
+I am into support , i am supporting production ,uat and lower environments and handling incidents and change activities in the environment whatever the incidents we get ,i have to respond and resolve the issues without any escalations.
+Having experience in working with host controller and process controller. 
+Configured database servers like Oracle and db2. By using management console,jboss cli and XML files.
+Creating vertical and horizontal clusters for high availability.
+Configured Apache with jboss by using mod-jk and mod cluster .
+
+On websphere:
+
+I worked on was 7.0 and 8.5 and installing was by gui mode and by using imcl commands..
+Created profiles like appserver profile, custom profile and dmgr profiles.and federated appserver and custom profiles to dmgr.
+Deployed applications by using admin console and by using wsadmin objects.
+Troubleshooted issues while deploying applications,at runtime and configuring database.
+Configured IHS and plugins with was.
+Configured vertical and horizontal clusters.
+Applied fixpack using imcl commands.
+Configured was with oracle db by using jdbc provider and datasource.
+
+On Weblogic: 
+
+I have experience in installing weblogic by using silent mode and created domains ,worked with machines, managed servers and node managers.
+Deployed applications using admin console and WLST scripting.
+Integrated Apache with weblogic using weblogic modules.
+Configured Oracle with weblogic .
+Troubleshooted issues in while deploying apps,at run time, starting admin server and managed servers.
+Generated thread dumps and heap dump and analyzed the dumps.
+Configured vertical and horizontal clusters,did pack and unpack.
+Configured datasources.
+
+On tomcat:
+
+Experience in installing tomcat.
+Deployed war files using manager application and file based deployment.
+Integrated tomcat and Apache using mod-jk modules.
+Troubleshooted issues in tomcat and apache .
+Configured data sources in tomcat.
+These are all the activities,i have done. 

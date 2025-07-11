@@ -1,0 +1,8 @@
+Daily roles and responsibiities
+--------------------------------
+1. Mainly i have to work on incidents,alerts and change. we will get tickets from prod and non-prod environments.
+2. Have to work on server issues,like application issues,performance issues have to gothrough the logs and have to troubleshoot based on the error message.
+3. I am supporting as an L2 ,have to to work on incidents,like servers down,applications down,404 error,500 error,deployment issues and outofmemory errors.
+4. Based on the SLA and priority of the incidents i have to respond and resolve the incidents.
+5. sometimes we have to interact with multiple teams like app team,db team,linux team to fix the issues.
+6. sometimes we do have scheduled deployments and change activites where we have to follow process while doing any activity but on day to day mainly i have to work on alerts and incidents.  
