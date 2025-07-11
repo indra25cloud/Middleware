@@ -1,0 +1,132 @@
+ ###### How to start wsadmin console.
+ 
+ First start the dmgr profile 
+ next execute below command
+wsadmin.bat -lang jython
+
+#### List all applications:
+wsadmin>print AdminApp.list()
+
+ ## List nodes:
+wsadmin>print AdminConfig.list('Node')
+
+ ##### View application details:
+ print AdminApp.view('policyset_war')
+
+### Node agent status:
+wsadmin>print AdminControl.queryNames('type=NodeAgent,*')
+it will disply running nodeagent details.
+
+### Start a Server:
+
+AdminControl.startServer('server1', 'DESKTOP-LL81H7CNode02')
+
+### Stop a Server:
+AdminControl.stopServer('server1', 'DESKTOP-LL81H7CNode02')
+
+### Deploy application
+
+AdminApp.install('F:/WAS_ND_7.0/installableApps/DefaultApplication.ear', ['-appname', 'Default', '-node', 'DESKTOP-LL81H7CNode02', '-server', 'server1'])
+AdminConfig.save()
+
+
+### start application:
+AdminControl.invoke(appManager, 'startApplication', 'Default')
+
+### Stop Application:
+wsadmin>AdminControl.invoke(appManager, 'stopApplication', 'Default')
+
+### Application status check:
+AdminControl.queryNames('type=Application,name=Default,*')
+
+## List of servers/profiles:
+print AdminTask.listServers('[-serverType APPLICATION_SERVER]')
+
+#### Create servers:
+AdminTask.createApplicationServer('DESKTOP-LL81H7CNode02', '[-name server2]')
+AdminConfig.save()
+
+how to get Node details:
+wsadmin>print AdminControl.getNode()
+
+how to create jdbc ?
+
+set the path:
+set nodeName DESKTOP-LL81H7CNode02
+set jdbcName "Oracle JDBC Provider"
+set classpath "F:\softwares/ojdbc6.jar"  
+
+#### create jdbc:
+
+AdminTask.createJDBCProvider('[-scope Node=DESKTOP-LL81H7CNode02 -databaseType Oracle -providerType "Oracle JDBC Driver" -implementationType "Connection pool data source" -name "Oracle JDBC Provider" -classpath ["F:/softwares/ojdbc6.jar"] -nativePath ""]')
+AdminConfig.save()
+
+####Create datasource:
+
+
+AdminTask.createDatasource('"Oracle JDBC Driver(cells/dmgrcell01/nodes/DESKTOP-LL81H7CNode02/servers/server1|resources.xml#JDBCProvider_1746436056829)"', '[-name DStest -jndiName jdbc/DStest -dataStoreHelperClassName com.ibm.websphere.rsadapter.Oracle10gDataStoreHelper -containerManagedPersistence true -componentManagedAuthenticationAlias dmgrnode01/dbusernode2 -configureResourceProperties [[URL java.lang.String jdbc:oracle:thin:@localhost:1521:XE]]]')
+AdminConfig.save()
+
+============================================================================
+
+linux with wsadmin 
+-------------
+[root@localhost bin]# ./wsadmin.sh -lang jython
+
+AdminTask.createApplicationServer('appnode01', '[-name server1]')
+AdminTask.createGenericServer('custumnode01', '[-name  server1]')
+print AdminTask.listServers()
+AdminControl.startServer('server1', 'custumnode01')
+
+
+
+
+#### create jdbc:
+
+AdminTask.createJDBCProvider('[-scope Node=appnode01 -databaseType Oracle -providerType "Oracle JDBC Driver" -implementationType "Connection pool data source" -name "Oracle JDBC Provider" -classpath ["/home/softwares/ojdbc6.jar"] -nativePath ""]')
+AdminConfig.save()
+
+####Create datasource:
+
+
+AdminTask.createDatasource('"Oracle JDBC Driver(cells/dmgrcell01/nodes/appnode01/servers/server1|resources.xml#JDBCProvider_1748362035315)"', '[-name DStest -jndiName jdbc/DStest -dataStoreHelperClassName com.ibm.websphere.rsadapter.Oracle10gDataStoreHelper -containerManagedPersistence true -componentManagedAuthenticationAlias dmgrnode01/dbusernode2 -propertySet[[URL java.lang.String jdbc:oracle:thin:@localhost:1521:XE]]]')
+AdminConfig.save()
+
+
+AdminTask.createAuthDataEntry('[-alias dmgrnode01/dbusernode2 -user system -password admin -description "Oracle DB user for JDBC DataSource"]')
+AdminConfig.save()
+
+
+AdminConfig.list('JDBCProvider')
+print(AdminConfig.list('DataSource'))
+
+
+
+dsid = AdminTask.createDatasource('Oracle JDBC Provider(cells/dmgrcell01/nodes/appnode01|resources.xml#JDBCProvider_1748362035315)', '[-name DStest -jndiName jdbc/DStest -dataStoreHelperClassName com.ibm.websphere.rsadapter.Oracle10gDataStoreHelper -componentManagedAuthenticationAlias dmgrnode01/dbusernode2 -containerManagedPersistence true -configureResourceProperties [[URL java.lang.String jdbc:oracle:thin:@localhost:1521:XE]]]')
+
+print(AdminConfig.list('DataSource'))
+print AdminControl.testConnection('/DataSource:DStest')
+"print(AdminControl.invoke(AdminControl.queryNames('type=DataSource,jndiName=jdbc/DStest,*'), 'testConnection'))
+
+
+datasource  mbeanis :
+WebSphere:name=DStest,process=server1,platform=dynamicproxy,node=appnode01,JDBCProvider=Oracle JDBC Provider,diagnosticProvider=true,j2eeType=JDBCDataSource,J2EEServer=server1,Server=server1,version=8.5.0.0,type=DataSource,mbeanIdentifier=cells/dmgrcell01/nodes/appnode01/resources.xml#DataSource_1748364002438,JDBCResource=Oracle JDBC Provider,cell=dmgrcell01,spec=1.0
+
+
+now test the connection:
+
+ "ds = 'WebSphere:name=DStest,process=server1,platform=dynamicproxy,node=appnode01,JDBCProvider=Oracle JDBC Provider,diagnosticProvider=true,j2eeType=JDBCDataSource,J2EEServer=server1,Server=server1,version=8.5.0.0,type=DataSource,mbeanIdentifier=cells/dmgrcell01/nodes/appnode01/resources.xml#DataSource_1748364002438,JDBCResource=Oracle JDBC Provider,cell=dmgrcell01,spec=1.0'; print(AdminControl.testConnection(ds))"
+
+test the connection:
+
+dataSourceId = AdminConfig.getid('/Cell:dmgrcell01/Node:appnode01/Server:server1/JDBCProvider:*/DataSource:DStest/')
+result = AdminTask.testConnection(dataSourceId)
+print 'Connection test result: ' + result
+
+
+print AdminControl.testConnection(AdminControl.queryNames('WebSphere:type=DataSource,name=DStest,*'))
+
+
+print(AdminControl.getCell())
+print(AdminControl.getNode())
+print(AdminControl.getProcessName())

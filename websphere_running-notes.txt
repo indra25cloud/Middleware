@@ -1,0 +1,441 @@
+ WAS--- websphere aplication server 
+
+default admin console nonsecure portno is 9060
+default admin console secure portno is 9043
+
+. How to know the was software is installed properly or not?
+C:\Program Files (x86)\IBM\WebSphere\AppServer\logs\install\log.txt in this location you can find msg like 
+INSTCONFSUCCESS.
+ 
+. was_root or was_home location is C:\Program Files (x86)\IBM\WebSphere\AppServer\
+where you can installed was software that location is called was_home/was_root location.
+
+. what is profile?
+ a profile is an environment, it contains admin console,cell,node,jvms and supporting configuration files which helps to do administrative activities on jvms and applications.
+. jvms -- java virtual machines.
+
+. diff types of profiles?
+ there are 7 types of profiles in was 7.0 
+	1. deployment manager profile
+	2. application server profile
+	3. custom or manages profile
+	4. cell profile
+	5. job manager profile
+	6. admin agent profile
+	7. secure proxy profile
+From was 8.0 onwards a new profile is introduced 
+	8. liberty profile.
+
+
+.how to create a profile with installed websphere application server?
+
+. goto was_root bin location 
+C:\Program Files (x86)\IBM\WebSphere\AppServer\bin
+. goto profile management directory
+C:\Program Files (x86)\IBM\WebSphere\AppServer\bin\ProfileManagement
+. rightclick on pmt batch file ....> run as administrator....> click on yes..> click on launch profile management tool ...>click on create ..>select app server _ click on next ...> click on next ..>uncheck administrative security..> click on next..>click on create ..> click on finish..> start the server ...> click on administrative console.
+
+what is profile_home location?
+C:\Program Files (x86)\IBM\WebSphere\AppServer\profiles\AppSrv01
+
+. how to start websphere application server in windows?
+
+ goto start menu..> open command prompt in administrative mode ..> goto profile_home\bin location 
+  cd C:\Program Files (x86)\IBM\WebSphere\AppServer\profiles\AppSrv01\bin> ....>
+ type startServer.bat server1 (server1 is a servername)
+---------------or-------------------
+was-root\bin: startserver.bat server1 -profileName <profie-name>
+
+
+. Profile Creation using Command Line
+ cd C:\Program Files (x86)\IBM\WebSphere\AppServer\bin> manageprofiles.bat -create -profileName AppSrv02 -profilePath  "C:\Program Files (x86)\IBM\WebSphere\AppServer\profiles\AppSrv02" -nodeName appnode02 -hostName localhost 
+ -cellName mycell01  
+ --------or-------------
+
+ C:\Program Files (x86)\IBM\WebSphere\AppServer\bin> manageprofiles.bat -create -profileName AppSrv02 -profilePath   "C:\Program Files (x86)\IBM\WebSphere\AppServer\profiles\AppSrv02"  -templatePath "C:\Program Files (x86)\IBM\WebSphere\AppServer\profileTemplates\default" -nodeName appnode02 -hostName localhost 
+ -cellName mycell02  
+
+. which file maintain all ports information ?
+ profile_home\config\cell\cellname\node\nodename\serverindex.xml in this file we have a wc_adminhost parameter. this parameter maintain portnumber. 
+-------or ----------------------
+ profile_home\logs\AboutThisProfile.txt
+
+
+. how to backup a profile ?
+
+  cd C:\Program Files (x86)\IBM\WebSphere\AppServer\bin: manageprofiles.bat -backupProfile -profileName sena 
+-backupFile "C:\Program Files (x86)\IBM\WebSphere\AppServer\backup\senayymmdd.zip"
+
+how to delete a profile ?
+
+cd C:\Program Files (x86)\IBM\WebSphere\AppServer\bin:manageprofiles.bat -delete -profileName sena
+.how to delete all profiles ?
+cd C:\Program Files (x86)\IBM\WebSphere\AppServer\bin:manageprofiles.bat -deleteAll 
+						     : manageprofiles.bat -validateandupdaterepository
+
+. how to check server status ?
+ was_root\bin: serverstatus.bat -all -profilename profile1 (all means all servers status. if you know the server name you can mention servername instead of -all)
+
+---------------or---------------
+profile_home\bin: serverstatus.bat server1
+
+. Default profile templates are used for applicationserver only.
+.how to check which profile is default profile?
+ goto C:\Program Files (x86)\IBM\WebSphere\AppServer\properties directory in that directory you can find profileRegistry.xml file, here you can find default profile.
+
+. How to create dmgr profile?
+ C:\Program Files (x86)\IBM\WebSphere\AppServer\bin>manageprofiles.bat -create -profileName dmgr03 -profilePath "C:\Program Files (x86)\IBM\WebSphere\AppServer\profiles\dmgr03" -templetePath "C:\Program Files (x86)\IBM\WebSphere\AppServer\profileTemplates\dmgr" -hostName localhost -nodeName dmgrnode03 -cellName dmgrcell03 
+
+. how to check dmgr profile status and start/stop server and delete dmgr profile?
+ C:\Program Files (x86)\IBM\WebSphere\AppServer\bin:serverStatus.bat  server1 -profileName dmgr02
+ ---------------------or-------------
+ C:\Program Files (x86)\IBM\WebSphere\AppServer\profiles\Dmgr01\bin>serverStatus.bat -all
+ C:\Program Files (x86)\IBM\WebSphere\AppServer\profiles\Dmgr01\bin>startManager.bat 
+																   >stopManager.bat 
+.is it possible to stop dmgr profile in WAS-HOME directory?
+ it's not directly possible to stop the dmgr profile from the WAS_HOME directory without navigating into the profile's bin directory or specifying the full path to the stop script.
+ 
+. how to add a  particular node to dmgr?
+goto profile_home/bin>addNode.sh hostname of dmgr SOAP connector portnumber of dmgr.
+C:\Program Files (x86)\IBM\WebSphere\AppServer\profiles\AppSrv01\bin>addNode.bat localhost 8879 -includeapps	
+## includeapps is for only application servers.	 
+
+. how to start nodeagent?
+profile-home/bin>startnode.bat
+how to stop nodeagent?
+profile_home/bin>stopnode.bat
+
+. how to remove node from from dmgr cell by using cmd ?
+goto profile-home/bin location then you must stop the node then execute removenode.bat script.
+profile-home/bin>stopnode.bat
+profile-home/bin>removenode.bat -force
+then delete profile also becoze after removing the node we have no use of profile.so we need to delete.
+
+. custom profile:
+at the time of creating custom profile you dont get any servers.it will create with node only. later you must federate with dmgr cell.withoutdmgr cell custom profile is invalid/useless.its mandate to federate.
+
+customprofile-home/bin>addNode.bat localhost 8879 
+
+.synchronization 
+
+the purpose of synchronization is to update the changes from cell to node.
+to synchronize a node using cmd, first you need to stop the nodeagent.
+profile-home/bin>stopnode.bat
+profile-home/bin>syncNode.bat hostName of dmgr  SOAP portno of dmgr.
+
+. how to change portnumber?
+goto dmgr adminprofile start the server and goto admin console then system admin then deploymentmanager then click on ports hyperlink click on portname change portno click on ok then click on review click on sync and click on save.
+then goto dmgrprofile home /config/cell/cellname/virtualhosts.xml edit here dmgr port no and save. this virtualhosts.xml file edit for dmgrprofile only. no need to edit for appserver profiles and custom profoles.
+then restart the server.
+
+. how to take backup without stopping servers.?
+was-root\bin>backupconfig.bat -nostop 
+## this script is going to take backup of default profile .
+
+.if you want to take particular profile backup with particular location?
+goto particular profile-home/bin location then execute the script.
+------------or-------------------
+was-root\bin>backupconfig.bat f:\profilenamebkp.zip -profiename -nostop
+ 
+. Highlevel steps to configuare was server with db server?
+1. create jdbc provider
+2. create a datasource
+3. while creating datasource, provide datasource name,JNDI and connection url.
+4. provide database server user name and password. under j2c authentication.
+5. save the changes and test connection.
+
+.I aam trying to start a server, but server is not starting.how to trouble shoot this issue?
+	1. if any files are missing
+	2. any directories got corrupted
+	3. if syntax is wrong
+	4. if nodeagentis not started
+	5. you are executing the command in wrong path
+	6. if there are no permissions.
+	7. if there is no sufficient disk space.
+	8. if no sufficient heap memory
+	9. not properly synchronized.
+	10. if any jar files are missing.
+	11. if there is not sufficient meta space.
+	
+
+. Webserver
+
+Role of webserver..
+	it will serve static files(html file)
+	we can configure maintenance pages
+	url re direction
+	rewrite rules
+	ssl certificates
+	virtual host configuration
+	it can forward the request to appserver.if appserver is integrated with IHS.
+
+webserver integrate with appserver by using plugins only.
+
+200tps - transaction per second.  
+	
+in environment we can configure without webserver also.
+If the web server is configured, we can still get information from the web server even when the application server is down.
+we will get server is under maintenance.
+If the web server is not available, users may see a 500 Internal Server Error, which can be confusing and not user-friendly
+
+There are 5 wsadmin objects
+	 1. AdminControl - start/stop servers and monitoring servers.
+	 2. AdminConfig - create jdbc driver,datasource,jms and update configuration
+	 3. AdminApp - application deployment,uninstall,updating application backup.
+	 4. adminTask - create servers,clusters,security updates.
+	 5. Help - it helps to check the options and usage of each objects.
+	 
+	 
+From was 8.0 onwards ,its mandatory to install installationManager (IM), before installing was,IHS,plugins,fixpack.
+
+IM can be installed in 4 ways
+		1. GUI mode
+		2. console mode
+		3. imcl mode
+		4. silent mode
+
+create file and view the file?
+			vi abc.txt
+			cat abc.txt
+			more abc.txt
+			tail -2 abc.txt (it will shows bottom 2 lines)
+			head -2 abc.txt (it will shows top 2 lines)
+			
+how to search a string in file?
+
+	grep "three" abc.txt ======== (grep string-name file-name)
+	grep -i "three" abc.txt 
+	## -i skip the casesensitive
+	
+what is the command to find and replace a string without opening the file.?
+	sed -i 's/one/1/g' abc.txt
+	## here s is search,one is old string in a file, 1 is new integer
+	
+in Vi editor how to replace string?
+	vi abc.txt
+	:%s/one/1/g
+	:wq
+
+to install IM: (GUI mode)
+./install from the Im file directory.	
+to uninstall IM ?
+goto 
+cd /var/ibm/InstallationManager/uninstall
+./uninstallc
+
+install IM (console mode)
+cd /home/software/IM
+./installc -c
+
+How to install WAS 8.5 using command line in silent mode?
+
+/opt/IBM/InstallationManager/eclipse/tools/:./imcl install com.ibm.websphere.ND.v85 -repositories /path/to/WAS/repository.config \
+-installationDirectory /opt/IBM/WebSphere/AppServer \
+-sharedResourcesDirectory /opt/IBM/IMShared \
+-accessRights admin \
+-silent \
+-acceptLicense
+
+How to install WAS 8.5 using command line?
+
+  /opt/IBM/InstallationManager/eclipse/tools/:./imcl install com.ibm.websphere.ND.v85_8.5.0.20120501_1108 -repositories "/home/softwares/WAS-8/repository.config" -installationDirectory "/opt/IBM/WebSphere/AppServer" -acceptLicense -showProgress
+
+
+How to check package id of installed websphere/IM?
+	/opt/IBM/InstallationManager/eclipse/tools/imcl listInstalledPackages
+	===== or =======
+	goto Im installation directory and tools here execute the imcl command.
+	./imcl listInstalledPackages
+	
+How to check available package id before installation?	
+		./imcl listAvailablePackages -repositories /home/softwares/WAS-8.5/repository.config 
+
+How to uninstall WAS from console?	
+	/opt/IBM/InstallationManager/eclipse/tools:./imcl uninstall com.ibm.websphere.ND.v85 -installationDirectory /opt/IBM/WebSphere/AppServer
+	
+	[root@localhost bin]# ./manageprofiles.sh -create -profileName AppSrv01 -profilePath "/opt/IBM/WebSphere/AppServer/profiles/AppSrv01" -templatePath "/opt/IBM/WebSphere/AppServer/profileTemplates/default"  -nodeName appnode01 -hostName localhost -cellName appcell01 
+ 
+ [root@localhost bin]# ./manageprofiles.sh -create -profileName Dmgr01 -profilePath "/opt/IBM/WebSphere/AppServer/profiles/Dmgr01" -templatePath "/opt/IBM/WebSphere/AppServer/profileTemplates/dmgr" -nodeName dmgrnode01 -hostName localhost -cellName dmgrcell01
+
+[root@localhost bin]# ./manageprofiles.sh -create -profileName Custom01 -profilePath "/opt/IBM/WebSphere/AppServer/profiles/Custom01" -templatePath "/opt/IBM/WebSphere/AppServer/profileTemplates/managed" -nodeName customnode01 -hostName localhost -cellName customcell01 
+ 
+ 
+
+ 
+Global security
+step by step:
+
+1.Start application server
+2. Create os  username password from command line
+	# useradd user-name
+	#passwd password-name
+3. Goto admin console- select security-global security - set as current and - enable admin security and select security wizard
+4.uncheck application security and click next and give the username which you created just now  .Click next and finish  
+5. Save the changes and click apply.
+5. Logout admin console 
+6. Restart server 
+7. Again with 
+Http://localhost/9061/admin
+8. Click the i understand risk and click on  add exception and click on config security exception. 
+9. Restart the admin console page.
+
+
+how to check version details:
+
+/opt/IBM/WebSphere/AppServer/bin
+[root@localhost bin]# ./versionInfo.sh
+
+WAS v-8.5.0.0
+major no
+minor no
+refresh/model no
+fixpack no
+
+how to apply fixpack/patch?
+	step by step
+	1. check the current version of was
+	2. take the backup of applications,profiles,was-root.
+	3. check the current version of IM ,if its required update the IM.
+	[root@localhost bin]# cd /opt/IBM/InstallationManager/eclipse/tools/
+	[root@localhost tools]# ./imcl -version
+	4.check the change is approved or not.
+	
+update IM:
+goto Im fixpack extracted directory and goto tools 
+/home/softwares/fixpack/tools	
+ ./imcl install com.ibm.cic.agent -repositories "/softwares/IM-Fixpack/repository.config" -acceptLicense -showProgress
+ 
+ update WAS: (fixpack)
+ download fixpack and extract then
+ goto Im installation directory and goto tools
+ ./imcl install com.ibm.websphere.ND.v85_8.5.5024.20230628_1659 -repositories "/softwares/WAS/repository.config" -installationDirectory /opt/IBM/WebSphere/AppServer -acceptLicense -showProgress
+ 
+ IHS installation
+	goto Im installationDirectory and goto tools
+		 ./imcl listAvailablePackages -repositories "/softwares/IHS/IHS_Extracted/repository.config" 
+
+		./imcl install com.ibm.websphere.IHSILAN.v85_8.5.5000.20130514_1044 -repositories "/softwares/IHS/IHS_Extracted/repository.config" -installationDirectory "/opt/HTTP" -properties user.ihs.httpPort=80 -acceptLicense -showProgress
+
+ 
+ plugins installation:
+	goto Im installationDirectory and goto tools 
+			./imcl listAvailablePackages -repositories /softwares/Plugins/Plugins_Extracted/repository.config 
+
+		./imcl install com.ibm.websphere.PLGILAN.v85_8.5.5000.20130514_1044 -repositories "/softwares/Plugins/Plugins_Extracted/repository.config" -installationDirectory "/opt/Plugins" -acceptLicense -showProgress
+
+ after plugins installation manually update the below two lines in httpd.conf file.
+	LoadModule was_ap22_module /opt/Plugins/bin/mod_was_ap22_http.so
+	WebSpherePluginConfig /opt/Plugins/config/plugin-cfg.xml
+ 
+ for vi edit:
+ set nu --> set the pagde numbers
+ 
+ errors:
+ status code 200 is sucess
+ status code 404 error:
+	wrong url
+	wrong contextroot
+	application down
+	
+ status code 500 error:
+		server down
+		
+ site cant be reached.
+ 
+ 
+ dmgr_home/config/cell/cellname under that
+ security.xml 
+ 
+ 
+ systemout.log contails :
+	we can find services that are started,modules that are loaded,
+ 
+ 
+ 
+ what is Heap memory?
+	Heap Memory is the portion of memory where the Java Virtual Machine (JVM) stores Java objects (heap objects) during program execution. 
+	WebSphere uses the JVM to run Java EE applications. Every server (Dmgr, NodeAgent, AppServer) has its own heap settings.
+You can configure these from:
+	Admin Console → Servers > Server Types > WebSphere application servers > [your server] > Java and Process Management > Process Definition > Java Virtual Machine
+	Or in shell via server.xml or startServer.sh arguments.
+	
+Key Heap Options:
+	-Xms	Initial Heap Size — Memory JVM reserves at start.
+	-Xmx	Maximum Heap Size — Max memory JVM can grow to.
+	
+		example: -Xms4096m -Xmx8192m
+
+How Heap Works:
+	1. When WAS starts, it allocates -Xms amount.
+	2. As users interact with applications and objects are created, heap grows.
+	3. If heap usage approaches the limit (-Xmx), Garbage Collector (GC) tries to clean up unused objects.
+	4. If GC can't free enough memory, OutOfMemoryError occurs.
+
+Internally, heap is divided into:
+			Young Generation (Eden + Survivor spaces): Where new objects go first.
+			Old Generation (Tenured space): Long-lived objects.
+			Metaspace (or PermGen in old Java): Class metadata (not counted in -Xmx).
+			
+Problems with Heap Misconfiguration:
+	-Xmx too low - 	OutOfMemoryError
+	-Xms too high - Slow startup or crash
+
+Memory Leak:
+	A memory leak happens when your application keeps storing objects in memory but never releases them, even though they are no longer needed.
+	This causes the heap memory to fill up slowly, eventually leading to OutOfMemoryError and server crash or hang.
+	 
+	 Impact of Memory Leak:
+		Server becomes slow
+		OutOfMemoryError
+		
+What is a Heap Dump?
+	A heap dump is a snapshot of JVM's memory at a point in time — it shows all the objects that are currently in heap memory.
+	It helps you analyze memory usage, find out:
+		What objects are taking most memory
+		Which objects are not being released,If there is a memory leak
+		
+How to Generate Heap Dump in WebSphere:
+	Manually from Admin Console:
+		Go to: Monitoring and Tuning > Performance Viewer > Current Activity
+		Select your server
+		Click Dump JVM Heap
+		
+	In jvm.options:
+		-XX:+HeapDumpOnOutOfMemoryError
+		-XX:HeapDumpPath=/opt/IBM/dumps/
+
+How to uninstall Entire WAS setup ?
+	1. Stop All Running Services
+		# Stop WebSphere server (all profiles)
+		cd /opt/IBM/WebSphere/AppServer/bin
+		./stopServer.sh server1 -profileName AppSrv01 -all
+		./stopManager.sh -profileName Dmgr01  # if it's ND version
+		# Stop IBM HTTP Server
+		/opt/IBM/HTTPServer/bin/apachectl stop
+	2. Uninstall WebSphere, IHS, and Plugins Using uninstall Scripts
+		/opt/IBM/InstallationManager/eclipse/tools/imcl listInstalledPackages -long
+	Then uninstall each:
+	# Uninstall WebSphere ND
+		/opt/IBM/InstallationManager/eclipse/tools/imcl uninstall com.ibm.websphere.ND.v85 -installationDirectory /opt/IBM/WebSphere/AppServer
+	# Uninstall Plugins (If plugins installed using IM)
+		/opt/IBM/InstallationManager/eclipse/tools/imcl uninstall com.ibm.websphere.PLG.v85 -installationDirectory /opt/Plugins
+	# Manual Plugin Uninstallation
+		rm -rf /opt/Plugins
+	# Uninstall IBM HTTP Server
+		/opt/IBM/InstallationManager/eclipse/tools/imcl uninstall com.ibm.httpserver.v85 -installationDirectory /opt/IBM/HTTPServer
+	# Manual HTTP Server uninstall	
+		rm -rf /opt/HTTP
+	3. Clean Up Remaining Files and Directories
+		rm -rf /opt/IBM/WebSphere
+		rm -rf /opt/IBM/HTTPServer
+		rm -rf /opt/IBM/InstallationManager
+		rm -rf /opt/IBM/IMShared
+		rm -rf /opt/IBM/WebSphere/Plugins
+		rm -rf /var/ibm/InstallationManager
+		rm -rf /etc/IBM
+		rm -rf /etc/.ibm/InstallationManager_installed.xml
+		
+
+
+
+		
