@@ -1,0 +1,289 @@
+Jenkins
+-------------
+it is a ci-cd tool
+integrate any tool to jenkins need to install plugins.
+you can integrate any tool with jenkins.
+jenkins is not just a tool. it is a frame work.i.e you can do what ever you want. all you need is plug-ins.
+
+ci-cd architechture - continues integration and contineous deployment.
+------------------------------------------------------------
+developer --> github --> jenkins --> Maven[build] --> junit/selenium[testing]--> checkstyle[QA]-->delivery/deployment
+ci= from developer to quality assurance.
+cd= deployment.
+by using jenkins you can automate ci-cd process.
+wheneven developers write code,we integrate all that code of all developers at that point of time and we build,test and deliver/deploy to the client. this process is called ci-cd.
+ 
+ key terminology
+ ---------------
+ integrate: combine all code written by developers till some point of time.
+ build: compile the code and make a small executable packages.
+ ex: .war,.jar,.executable
+ test: test in all environments wether application is properly working or not.
+ archieved: final product is stored in an artifactory so that in future we may use/deliver again.
+ deliver: handling the product to client.
+ deploy: installing product in client machine.
+ 
+ Installation of git,java,maven,jenkin:
+ -----------------------------------------
+sudo yum update -y
+sudo yum install -y git
+git --version
+sudo yum install -y java-11-openjdk
+java -version
+java default path change command : alternatives --config java
+sudo yum install -y wget
+wget https://archive.apache.org/dist/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+Extract and move to /opt:
+sudo tar -xvzf apache-maven-3.9.6-bin.tar.gz -C /opt
+mv apache-maven-3.9.6 maven
+Setup environment variables:
+sudo tee /etc/profile.d/maven.sh <<EOF
+export M2_HOME=/opt/maven
+export PATH=\${M2_HOME}/bin:\${PATH}
+EOF
+Load the environment:
+source /etc/profile.d/maven.sh
+mvn -version
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+sudo yum install -y jenkins
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
+sudo systemctl status jenkins
+sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
+sudo firewall-cmd --reload
+http://<your_VM_IP>:8080
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+================================================================================
+after installation of jenkins,open admin console of jenkins: http:/192.168.85.133:8080
+
+execute first job once executed a job folder is created with jobname in below location.
+/var/lib/jenkins/workspace
+
+===========================================================================================
+error:
+jenkins not started.
+
+journalctl -xe | tail -30
+This will show the last 30 lines of the Jenkins startup logs — we’ll look for:
+
+Java version errors
+Port conflicts
+Missing permissions
+==========================================================================================
+practice:
+--------------
+    1  sudo journalctl -u jenkins -n 50
+    2  yum update -y
+    3  yum install java 1.8* -y
+    4  ifconfig
+    5  df -h
+    6  cd /dev/mapper/cl-root
+    7  ls
+    8  cd  /
+    9  ls
+   10  ls -lrt
+   11  yum install -y
+   12  yum update -y
+   13  cat /etc/resolv.conf
+   14  nmcli connection show
+   15  nmcli connection modify ens33 ipv4.dns "8.8.8.8 1.1.1.1"
+   16  nmcli connection modify ens33 ipv4.ignore-auto-dns yes
+   17  nmcli connection down ens33
+   18  nmcli connection up ens33
+   19  cat /etc/resolv.conf
+   20  ping google.com
+   21  yum update -y
+   22  clear
+   23  cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
+   24  vi /etc/yum.repos.d/CentOS-Base.repo
+   25  yum clean all
+   26  yum makecache
+   27  yum update -y
+   28  clear
+   29  git --version
+   30  java -version
+   31  sudo yum install -y https://repo.ius.io/ius-release-el7.rpm
+   32  sudo yum remove -y git
+   33  sudo yum install -y git236
+   34  git --version
+   35  sudo yum install -y java-11-openjdk java-11-openjdk-devel
+   36  # Check version
+   37  java -version
+   38  # Update JAVA_HOME if needed
+   39  java -version
+   40  sudo yum install -y java-11-openjdk java-11-openjdk-devel
+   41  sudo alternatives --config java
+   42  java -version
+   43  clear
+   44  mvn -version
+   45  wget --version
+   46  clear
+   47  wget https://downloads.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+   48  wget https://archive.apache.org/dist/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+   49  ls
+   50  tar -xvzf apache-maven-3.9.6-bin.tar.gz -C /opt
+   51  ls
+   52  cd /opt/
+   53  ls
+   54  mv apache-maven-3.9.6/ maven
+   55  ls
+   56  sudo tee /etc/profile.d/maven.sh <<EOF
+   57  export M2_HOME=/opt/maven
+   58  export PATH=\$M2_HOME/bin:\$PATH
+   59  EOF
+   60  source /etc/profile.d/maven.sh
+   61  mvn -version
+   62  clear
+   63  wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+   64  rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+   65  yum install -y jenkins
+   66  systemctl enable jenkins
+   67  systemctl start jenkins
+   68  systemctl status jenkins
+   69  grep 'JAVA' /etc/sysconfig/jenkins
+   70  vi /etc/sysconfig/jenkins
+   71  systemctl daemon-reload
+   72  systemctl restart jenkins
+   73  journalctl -xe | tail -30
+   74  clear
+   75  sudo systemctl stop jenkins
+   76  sudo yum remove jenkins -y
+   77  wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo && sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key && sudo yum install -y jenkins
+   78  vi /etc/sysconfig/jenkins
+   79  sudo systemctl daemon-reload
+   80  sudo systemctl restart jenkins
+   81  sudo systemctl status jenkins -l
+   82  journalctl -xe | tail -30
+   83  pwd
+   84  sudo -u jenkins /usr/bin/java -version
+   85  sudo -u jenkins /usr/bin/jenkins
+   86  sudo yum install -y java-17-openjdk java-17-openjdk-devel
+   87  sudo yum remove -y jenkins
+   88  wget https://get.jenkins.io/redhat-stable/jenkins-2.361.4-1.1.noarch.rpm
+   89  sudo rpm -ivh jenkins-2.361.4-1.1.noarch.rpm
+   90  clear
+   91  sudo mkdir -p /var/cache/jenkins
+   92  sudo mkdir -p /var/log/jenkins
+   93  sudo mkdir -p /var/lib/jenkins
+   94  sudo chown -R jenkins:jenkins /var/cache/jenkins /var/log/jenkins /var/lib/jenkins
+   95  sudo rpm -ivh jenkins-2.361.4-1.1.noarch.rpm
+   96  java -version
+   97  sudo -u jenkins /usr/bin/java -version
+   98  sudo cat /var/lib/jenkins/config.xml | grep version
+   99  sudo systemctl start jenkins
+  100  sudo systemctl status jenkins
+  101  cat /var/lib/jenkins/secrets/initialAdminPassword
+  102  systemctl status
+  103  clear
+  104  ping google.com
+  105  curl -I https://updates.jenkins.io
+  106  curl -sSL https://updates.jenkins.io/update-center.json | sudo tee /var/lib/jenkins/updates/default.json
+  107  sudo systemctl restart jenkins
+  108  cat /var/lib/jenkins/secrets/initialAdminPassword
+  109  sudo systemctl stop jenkins
+  110  sudo systemctl status jenkins
+  111  exit
+  112  history
+
+if you have multiple java homes then execute this command for maven plugins and git plugins:
+------------------------------------------------
+/usr/lib/jvm/temurin-17-jdk/bin/java -jar jenkins-cli.jar -s http://localhost:8080/ -auth jenkins:11c6d64202c30d5c9ad258d8cd56dec12d install-plugin git maven-plugin && /usr/lib/jvm/temurin-17-jdk/bin/java -jar jenkins-cli.jar -s http://localhost:8080/ -auth jenkins:11c6d64202c30d5c9ad258d8cd56dec12d safe-restart
+
+pipeline-pigins:
+/usr/lib/jvm/temurin-17-jdk/bin/java -jar jenkins-cli.jar -s http://localhost:8080/ -auth jenkins:11c6d64202c30d5c9ad258d8cd56dec12d install-plugin workflow-aggregator && /usr/lib/jvm/temurin-17-jdk/bin/java -jar jenkins-cli.jar -s http://localhost:8080/ -auth jenkins:11c6d64202c30d5c9ad258d8cd56dec12d safe-restart
+
+
+if you have single java home go with below command:
+--------------------------------
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth jenkins:11c6d64202c30d5c9ad258d8cd56dec12d install-plugin git maven-plugin && java -jar jenkins-cli.jar -s http://localhost:8080/ -auth jenkins:11c6d64202c30d5c9ad258d8cd56dec12d safe-restart
+
+==============================================
+jenkin api token:
+  11c6d64202c30d5c9ad258d8cd56dec12d
+======================================================
+Maven:
+------
+git clone from github repository
+then 
+to build code by using command 
+mvn clean package
+
+Embedded Tomcat → runs your JAR, all-in-one(Spring Boot JAR)
+
+Standalone Tomcat → deploy multiple WARs, classic style
+--------------------
+Build triggers:
+build whenever a snapshot dependency is build
+build periodically
+Scheduled jobs
+pull scm (source code management)
+build after other project done. --- upstream job
+post build actions:
+build other projects nothing but related/linked jobs---- down stream job
+user administration
+master-slave configuration in same box and external boxes.
+
+===================================================================================
+To open chromium browser
+[root@localhost ~]# chromium-browser --no-sandbox &
+===============================================================================
+Java Spring Boot project.
+by using Jenkins + Maven + Git CI/CD pipeline i have deployed application in embedded tomcat.
+-----------------------------------------------
+1. i have installed java,maven,git and jenkins.
+2. created a Pipeline job in Jenkins
+	In the Pipeline config:
+	pasted a Groovy Jenkinsfile script that defines:
+	Where to clone code from
+	How to build it
+	How to run it
+3. What each block does in jenkinfile
+agent any
+👉 Run the pipeline on any available Jenkins node/agent.
+
+tools
+👉 Use the Maven version you defined in Jenkins Global Tool Config (maven).
+
+environment
+👉 Define reusable variables: app name, port, log file path.
+✔️ Checkout:
+
+git branch: 'main', url: 'https://github.com/spring-projects/spring-petclinic.git'
+👉 Clone the main branch of PetClinic from GitHub.
+✔️ Build:
+from command line execute below command.
+'mvn clean package'
+👉 Run Maven to compile code, run tests, and produce a .jar.
+✔️ Stop Old App:
+👉 Kill any running instance with:
+✔️ Start New App:
+👉 Start new .jar in background with:
+nohup java -jar target/spring-petclinic-3.5.0-SNAPSHOT.jar --server.port=9090 > /tmp/petclinic.log 2>&1 &
+4. ran the pipeline
+Clicked Build Now
+Jenkins:
+✅ Pulled code
+
+✅ Ran Maven (mvn clean package)
+
+✅ Built the .jar to:
+/var/lib/jenkins/workspace/PetClinic-Deploy/target/
+6. verified the .jar manually
+Because nohup inside Jenkins doesn’t persist perfectly (due to shell exit),
+you ran it yourself:
+
+cd /var/lib/jenkins/workspace/PetClinic-Deploy
+nohup java -jar target/spring-petclinic-3.5.0-SNAPSHOT.jar --server.port=9090 > /tmp/petclinic.log 2>&1 &
+7.  You checked it’s running
+ps -ef | grep spring-petclinic
+tail -f /tmp/petclinic.log
+http://localhost:9090 (by default it is 8080 port. but i have changed port from 8080 to 9090 because of port conflict)
+
+ Interview explanation:
+ I built a complete Jenkins CI/CD pipeline for a Java Spring Boot app.
+I configured a Jenkins Pipeline job that clones source code from GitHub, uses Maven to build and test it, and deploys the built .jar on the same server.
+The Jenkinsfile has stages for Checkout, Build, Stop Old App, and Start New App.
+I used nohup and & to run the .jar in the background so it stays alive outside Jenkins’ shell session.
+I verified the process and logs, and accessed the app on a custom port.
+This setup demonstrates an end-to-end automated build and deploy flow.
